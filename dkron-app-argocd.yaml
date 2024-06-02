@@ -12,7 +12,7 @@ spec:
     path: k8s-deployment/dkron
   destination:
     server: https://kubernetes.default.svc
-    namespace: dkron
+    namespace: default
   syncPolicy:
     automated:
       prune: true
