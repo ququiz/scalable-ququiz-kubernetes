@@ -11,7 +11,6 @@ spec:
     limits:
       cpu: 800m
       memory: 1Gi
-  spec:
-   persistence:
+  persistence:
     storageClassName: local-storage
     storage: 5Gi
