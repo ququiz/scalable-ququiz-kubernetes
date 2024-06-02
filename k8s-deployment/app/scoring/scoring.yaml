@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name:  scoring
-        image: docker.io/lintangbirdas/quiz-query-service:v1
+        image: docker.io/lintangbirdas/quiz-query-service:1
         imagePullPolicy: Always
         env:
           - name: MONGO_URL
