@@ -22,7 +22,7 @@ spec:
           - name: POSTGRES_PASSWORD
             value: lintang
           - name: POSTGRES_HOST
-            value: my-pgsql-cluster-rw.pg
+            value: my-pgsql-cluster-rw.postgres
           - name: POSTGRES_PORT
             value: '5432'
           - name: POSTGRES_DATABASE
