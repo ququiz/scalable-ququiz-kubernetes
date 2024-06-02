@@ -211,21 +211,47 @@ EOF
 1b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
 
 
+
+
+---- dkron ----
+4a. kubectl  create configmap dkroncurl  --from-file ./dkron_curl.sh
+4b. apply dkron-app di argocd
+4c. kubectl get pod
+
+4d. kubectl exec -it <nama_pod_dkron>  -- bash -c "cp curl/* bisa/ && chmod 777 bisa/dkron_curl.sh && bisa/dkron_curl.sh"
+
+4e. connURL = http://dkron-svc:8080/v1/jobs
+4f. copy connURl dkron ke environment  k8s-deployment/app/*  (DKRON_URL)
+
+
+
 ---- postgres ----
 - helm repo add cloudnative-pg https://cloudnative-pg.io/charts/
 - helm install my-cloudnative-pg cloudnative-pg/cloudnative-pg --version 0.20.2
 
+sudo mkdir -p /data/volumes/postgres
+sudo chmod 777 /data/volumes/postgres
+
+
+kubectl apply -f postgres/pv-postgres.yaml
+
+
+- install  postgres-app.yaml di argocd node
 - kubectl exec -n pg -it my-pgsql-cluster-1 bash
 
 - psql -U postgres
-- CREATE DATABASE chat;
-- create user usercoba with password 'asdasd';
-- GRANT ALL PRIVILEGES ON DATABASE chat to usercoba;
-- GRANT ALL ON SCHEMA public to usercoba;
-- ALTER DATABASE chat OWNER  TO usercoba;
+- CREATE DATABASE ququiz;
+- create user lintang with password 'lintang';
+- GRANT ALL PRIVILEGES ON DATABASE ququiz to lintang;
+- GRANT ALL ON SCHEMA public to lintang;
+- ALTER DATABASE ququiz OWNER  TO lintang;
 
 
 ```
+
+
+
+
 
 ## Quick Start (Minikube/k8s) (yg kujelasin works di minikube)
 

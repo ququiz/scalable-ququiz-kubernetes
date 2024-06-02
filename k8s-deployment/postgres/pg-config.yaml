@@ -6,7 +6,7 @@ data:
   username: cG9zdGdyZXMK #postgres - Note: It NEEDs to be postgres
 metadata:
   name: pg-superuser
-  namespace: pg
+  namespace: postgres
 ---
 apiVersion: v1
 kind: Secret
@@ -16,13 +16,13 @@ data:
   username: bGludGFuZwo= #lintang
 metadata:
   name: pg-app-user
-  namespace: pg
+  namespace: postgres
 ---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: my-pgsql-cluster
-  namespace: pg
+  namespace: postgres
 spec:
   description: "My example pg cluster"
   imageName: ghcr.io/cloudnative-pg/postgresql:15.1
