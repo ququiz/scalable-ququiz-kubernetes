@@ -1,0 +1,46 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notification
+spec:
+  selector:
+    matchLabels:
+      app: notification
+  template:
+    metadata:
+      labels:
+        app:  notification
+    spec:
+      containers:
+      - name:  notification
+        image: docker.io/lintangbirdas/ququiz-notification-service-bagas:v1
+        imagePullPolicy: Always
+        env:
+          - name: RABBITMQ_HOST
+            value: amqp://default_user_qBofhrkSzzUoEDWve1t:ZciKwWU3f4ev5dFjmBnIMNDnvr4MjKfr@10.108.25.30:5672/ # sesuain sama ip service headless rabbitmq
+          
+        resources:
+          limits:
+            memory: "700Mi"
+            cpu: "700m"
+        ports:
+        - containerPort: 3000
+          name: rest-api
+        
+    
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification-service
+spec:
+  selector: 
+    app: notification
+  ports:
+    - name: rest-api
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+
+ 

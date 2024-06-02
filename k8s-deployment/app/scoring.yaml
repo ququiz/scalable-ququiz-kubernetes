@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scoring
+spec:
+  selector:
+    matchLabels:
+      app: scoring
+  template:
+    metadata:
+      labels:
+        app:  scoring
+    spec:
+      containers:
+      - name:  scoring
+        image: docker.io/lintangbirdas/quiz-query-service:v1
+        imagePullPolicy: Always
+        env:
+          - name: MONGO_URL
+            value: mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false&readPreference=secondary
+          - name: RABBITMQ_ADDRESS
+            value: amqp://default_user_qBofhrkSzzUoEDWve1t:ZciKwWU3f4ev5dFjmBnIMNDnvr4MjKfr@10.108.25.30:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
+          - name: MONGO_WRITE_URL
+            value:  mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false
+         
+          - name: REDIS_ADDR
+            value: redis-headless.redis:6379
+          - name: REDIS_PASSWORD
+            value: lintang
+          - name: APP_ENV
+            value: k8s
+           # - name: DKRON_URL
+          #   value: http://dkron-svc:8080/v1/jobs
+          # - name: TRANSCODER_WORKER_URL
+          #   value: lintang-transcoder-worker-service.default.svc.cluster.local:9995
+        resources:
+          limits:
+            memory: "1000Mi"
+            cpu: "1500m"
+        ports:
+        - containerPort: 3503
+          name: rest-api
+        - containerPort: 6005
+          name: grpc
+  
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scoring-service
+spec:
+  selector: 
+    app: scoring
+  ports:
+    - name: rest-api
+      port: 3503
+      protocol: TCP
+      targetPort: 3503
+    - name: grpc
+      port: 6005
+      protocol: TCP
+      targetPort: 6005
+      # nodePort: 31203
+
+  # type: NodePort

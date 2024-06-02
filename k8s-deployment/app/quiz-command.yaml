@@ -1,0 +1,55 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-command
+spec:
+  selector:
+    matchLabels:
+      app: quiz-command
+  template:
+    metadata:
+      labels:
+        app:  quiz-command
+    spec:
+      containers:
+      - name:  quiz-command
+        image: docker.io/lintangbirdas/quiz-command-service-adam:v1
+        imagePullPolicy: Always
+        env:
+          - name: MONGO_USERNAME
+            value: admin
+          - name: MONGO_PASSWORD
+            value: lintang
+          - name: MONGO_HOST
+            value: ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local
+          - name: MONGO_PORT
+            value: '27017'
+          - name: DKRON_URL
+            value: http://dkron-svc:8080/v1/jobs
+          
+        resources:
+          limits:
+            memory: "700Mi"
+            cpu: "700m"
+        ports:
+        - containerPort: 3000
+          name: rest-api
+        
+    
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz-command-service
+spec:
+  selector: 
+    app: quiz-command
+  ports:
+    - name: rest-api
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+
+ 

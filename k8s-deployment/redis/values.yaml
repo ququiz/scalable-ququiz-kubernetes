@@ -1,0 +1,20 @@
+
+sentinel:
+  enabled: true
+volumePermissions:
+  enabled: true
+replica:
+  replicaCount: 3
+  persistence:
+    size: 2Gi
+auth:
+  enabled: true
+  password: lintang
+master:
+  livenessProbe:
+    enabled: true
+  persistence:
+    size: 2Gi
+global:
+  storageClass: local-storage
+

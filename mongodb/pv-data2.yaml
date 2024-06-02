@@ -1,0 +1,26 @@
+# pv/pv-logs.yaml
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-example-mongodb-ququiz-2
+  labels:
+    app: example-mongodb-svc
+spec:
+  capacity:
+    storage: 10Gi # Please adjust to match your requirements
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce # Ensure this matches the requirement of your application
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "" # No StorageClass specified
+  local:
+    path: /data/volumes/pv-mongodb-data-2 # Replace with the path where the logs should be stored
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - node1 # Replace with the name of your Kubernetes node

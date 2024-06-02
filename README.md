@@ -1,6 +1,181 @@
 # argocd-k8s-ququiz
 
 
+## TODO
+```
+- load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
+```
+
+
+### Setup Redis, Mongodb, dll.
+
+```
+
+----setup storageclass & pv----
+- buat storageclass
+cat << EOF | kubectl apply -f -
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+EOF
+
+-- buat volume dir buat redis
+sudo mkdir -p /data/volumes/redis
+sudo chmod 777 /data/volumes/redis
+sudo mkdir -p /data/volumes/redis1
+sudo chmod 777 /data/volumes/redis1
+sudo mkdir -p /data/volumes/redis2
+sudo chmod 777 /data/volumes/redis2
+sudo mkdir -p /data/volumes/redis3
+sudo chmod 777 /data/volumes/redis3
+
+
+
+- create pv buat redis
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-redis
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volumes/redis
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node1
+EOF
+
+
+
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-redis1
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volumes/redis1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node1
+EOF
+
+
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-redis2
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volumes/redis2
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node1
+EOF
+
+
+
+
+
+
+
+------redis------
+- helm repo add bitnami https://charts.bitnami.com/bitnami
+- cd redis
+- helm install redis bitnami/redis --version 19.3.4 -f values.yaml --namespace redis (ini gakusah argocd aja yg deploy)
+
+
+---setup volume mongodb
+cd mongodb
+sudo mkdir /data/volumes/pv-mongodb-data
+sudo mkdir /data/volumes/pv-mongodb-data-2
+sudo mkdir /data/volumes/pv-mongodb-data-3
+sudo mkdir /data/volumes/pv-mongodb-logs
+sudo mkdir /data/volumes/pv-mongodb-logs-2
+sudo mkdir /data/volumes/pv-mongodb-logs-3
+kubectl apply -f pv-logs.yaml
+kubectl apply -f pv-logs2.yaml
+kubectl apply -f pv-logs3.yaml
+kubectl apply -f pv-data.yaml
+kubectl apply -f pv-data2.yaml
+kubectl apply -f pv-data3.yaml
+
+
+
+
+----mongodb------
+
+-  helm repo add mongodb https://mongodb.github.io/helm-charts
+- helm install community-operator mongodb/community-operator --namespace mongodb  --create-namespace
+- kubectl apply -f mongo_sample_cr.yaml --namespace mongodb (ini gakusah biar argo cd yang deploy)
+
+
+
+---- postgres ----
+- helm repo add cloudnative-pg https://cloudnative-pg.io/charts/
+- helm install my-cloudnative-pg cloudnative-pg/cloudnative-pg --version 0.20.2
+
+- kubectl exec -n pg -it my-pgsql-cluster-1 bash
+
+- psql -U postgres
+- CREATE DATABASE chat;
+- create user usercoba with password 'asdasd';
+- GRANT ALL PRIVILEGES ON DATABASE chat to usercoba;
+- GRANT ALL ON SCHEMA public to usercoba;
+- ALTER DATABASE chat OWNER  TO usercoba;
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Quick Start (Minikube/k8s) (yg kujelasin works di minikube)
 - aku ambil dari  hehe https://github.com/lintang-b-s/distributed-video-transcoder
