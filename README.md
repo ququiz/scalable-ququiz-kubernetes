@@ -1,15 +1,17 @@
 # argocd-k8s-ququiz
 
-
 ## TODO
+
 ```
 - load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
 ```
 
-
 ### Setup Redis, Mongodb, dll.
 
 ```
+---- list namespace----
+default: buat microservices, dkron
+redis,mongodb,rabbitmq
 
 ----setup storageclass & pv----
 - buat storageclass
@@ -31,6 +33,8 @@ sudo mkdir -p /data/volumes/redis2
 sudo chmod 777 /data/volumes/redis2
 sudo mkdir -p /data/volumes/redis3
 sudo chmod 777 /data/volumes/redis3
+
+--- node sesuain nama k8s node yang mau dideploy redis/dbnya
 
 
 
@@ -56,7 +60,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - node2
 EOF
 
 
@@ -82,7 +86,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - node2
 EOF
 
 
@@ -107,7 +111,33 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - node2
+EOF
+
+
+
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-redis3
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volumes/redis3
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node2
 EOF
 
 
@@ -146,6 +176,39 @@ kubectl apply -f pv-data3.yaml
 - helm install community-operator mongodb/community-operator --namespace mongodb  --create-namespace
 - kubectl apply -f mongo_sample_cr.yaml --namespace mongodb (ini gakusah biar argo cd yang deploy)
 
+---- rabbitmq----
+sudo mkdir -p /data/volumes/rabbitmq
+sudo chmod 777 /data/volumes/rabbitmq
+
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-rabbitmq
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/volumes/rabbitmq
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - node2
+EOF
+
+
+
+
+1. kubectl apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
+1b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
 
 
 ---- postgres ----
@@ -164,22 +227,11 @@ kubectl apply -f pv-data3.yaml
 
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## Quick Start (Minikube/k8s) (yg kujelasin works di minikube)
-- aku ambil dari  hehe https://github.com/lintang-b-s/distributed-video-transcoder
+
+- aku ambil dari hehe https://github.com/lintang-b-s/distributed-video-transcoder
 - setup mongodb operator, rabbitmq operator, dkron, nginx-ingress (eksekusi semua commadn dibawah sebelum deploy app)
+
 ```
 
 0. pastikan udah install, helm, minikube, docker
@@ -194,7 +246,7 @@ kubectl apply -f pv-data3.yaml
 1d.dapetin connection string mongodb:  kubectl get secret example-mongodb-admin-admin    -n mongodb \
 -o json | jq -r '.data | with_entries(.value |= @base64d)'
 
-1e. contoh hasil dari command diatas: 
+1e. contoh hasil dari command diatas:
 {
   "connectionString.standard": "mongodb://admin:lintang@example-mongodb-0.example-mongodb-svc.mongodb.svc.cluster.local:27017,example-mongodb-1.example-mongodb-svc.mongodb.svc.cluster.local:27017,example-mongodb-2.example-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=example-mongodb&ssl=false",
   "connectionString.standardSrv": "mongodb+srv://admin:lintang@example-mongodb-svc.mongodb.svc.cluster.local/admin?replicaSet=example-mongodb&ssl=false",
@@ -210,7 +262,7 @@ kubectl apply -f pv-data3.yaml
 1j. minikube addons enable ingress
 
 --- rabbitmq----
-2. kubectl apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml 
+2. kubectl apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
 2b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
 2c. kubectl apply -f k8s-deployment/rabbitmq/rmq_cr.yaml
 
@@ -231,12 +283,12 @@ connURL= amqp://default_user_Z4KRpZEzc-7wictHAsl:0vpV52fDOzbx2UtHFMRDotjw27pvzB1
 ---- dkron ----
 4a. kubectl  create configmap dkroncurl  --from-file ./dkron_curl.sh
 4b. kubectl apply -f k8s-deployment/dkron/dkron-deployment.yaml
-4c. kubectl get pod 
+4c. kubectl get pod
 
 4d. kubectl exec -it <nama_pod_dkron>  -- bash -c "cp curl/* bisa/ && chmod 777 bisa/dkron_curl.sh && bisa/dkron_curl.sh"
 
 4e. connURL = http://dkron-svc:8080/v1/jobs
-4f. copy conURl dkron ke environment  k8s-deployment/app/*  (DKRON_URL) 
+4f. copy conURl dkron ke environment  k8s-deployment/app/*  (DKRON_URL)
 
 
 ---nginx ingress---
@@ -248,5 +300,3 @@ connURL= amqp://default_user_Z4KRpZEzc-7wictHAsl:0vpV52fDOzbx2UtHFMRDotjw27pvzB1
 
 7. minikube addons enable metrics-server
 ```
-
-
