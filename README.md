@@ -225,11 +225,8 @@ kubectl apply -f replicasetmongo.yaml -n mongo
 ---- mongodb gakbisa bitnami helm----
 cd ~/scalable/k8s/mongodb
 helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install ququiz-mongodb-db bitnami/mongodb --version 15.2.0  -f values.yml -n mongodb (gakbisa)
-
-helm install ququiz-mongodb-dbs bitnami/mongodb --version 14.4.0  -f values.yml -n mongodb 
-
-helm install my-release oci://registry-1.docker.io/bitnamicharts/mongodb (gakbisa)
+hhelm install ququiz-mongodb-dbs bitnami/mongodb --version 12.1.30  -f values.yaml -n mongodb 
+(versi terbaru gak bisa cpu vps gak support)
 
 
 MongoDB&reg; can be accessed on the following DNS name(s) and ports from within your cluster:
@@ -244,12 +241,10 @@ To get the root password run:
 
 To connect to your database, create a MongoDB&reg; client container:
 
-    kubectl run --namespace mongodb ququiz-mongodb-dbs-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:7.0.4-debian-11-r0 --command -- bash
+    kubectl run --namespace mongodb ququiz-mongodb-dbs-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:5.0.10-debian-11-r1 --command -- bash
 
 Then, run the following command:
-    mongosh admin --host "ququiz-mongodb-dbs-0.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017,ququiz-mongodb-dbs-1.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017,ququiz-mongodb-dbs-2.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017" --authenticationDatabase admin -u $MONGODB_ROOT_USER -p $MONGODB_ROOT_PASSWORD
-
-docker pull docker.io/bitnami/mongodb:7.0.11-debian-12-r0 lama (terbaru)
+    mongosh admin --host "ququiz-mongodb-dbs-0.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017,ququiz-mongodb-dbs-1.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017,ququiz-mongodb-dbs-2.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
 
 
 ----mongodb------
