@@ -15,7 +15,7 @@ spec:
       replicas: 3
       containers:
       - name:  quiz-query
-        image: docker.io/lintangbirdas/quiz-query-service:3
+        image: docker.io/lintangbirdas/quiz-query-service:1
         imagePullPolicy: Always
         env:
           - name: MONGO_URL
