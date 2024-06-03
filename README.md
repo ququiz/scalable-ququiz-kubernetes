@@ -156,10 +156,22 @@ EOF
 cd mongodb
 sudo mkdir /data/volumes/pv-mongodb-data
 sudo mkdir /data/volumes/pv-mongodb-data-2
+
 sudo mkdir /data/volumes/pv-mongodb-data-3
+
 sudo mkdir /data/volumes/pv-mongodb-logs
+
 sudo mkdir /data/volumes/pv-mongodb-logs-2
 sudo mkdir /data/volumes/pv-mongodb-logs-3
+
+sudo chmod 777  /data/volumes/pv-mongodb-data
+sudo chmod 777  /data/volumes/pv-mongodb-data-2
+sudo chmod 777  /data/volumes/pv-mongodb-data-3
+sudo chmod 777 /data/volumes/pv-mongodb-logs
+sudo chmod 777 /data/volumes/pv-mongodb-logs-2
+sudo chmod 777 /data/volumes/pv-mongodb-logs-3
+
+
 kubectl apply -f pv-logs.yaml
 kubectl apply -f pv-logs2.yaml
 kubectl apply -f pv-logs3.yaml
@@ -209,7 +221,7 @@ EOF
 
 1. kubectl apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
 1b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
-
+deploy rabbitmq apps
 
 
 
