@@ -5,7 +5,12 @@
 ```
 - load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
 ```
+### troubleshooting
+```
+https://stackoverflow.com/questions/46852169/no-primary-detected-for-set-mongo-shell
 
+
+```
 ### Setup Redis, Mongodb, dll.
 
 ```
@@ -188,6 +193,8 @@ kubectl apply -f pv-data3.yaml
 -  helm repo add mongodb https://mongodb.github.io/helm-charts
 - helm install community-operator mongodb/community-operator --namespace mongodb  --create-namespace
 - kubectl apply -f mongo_sample_cr.yaml --namespace mongodb (ini gakusah biar argo cd yang deploy)
+ kubectl get secret ququiz-db-mongodb-admin-admin    -n mongodb \
+-o json | jq -r '.data | with_entries(.value |= @base64d)'
 
 ---- rabbitmq----
 sudo mkdir -p /data/volumes/rabbitmq
