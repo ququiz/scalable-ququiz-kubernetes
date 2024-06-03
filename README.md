@@ -301,11 +301,11 @@ kubectl apply -f postgres/pv-postgres.yaml
 2b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
 2c. kubectl apply -f k8s-deployment/rabbitmq/rmq_cr.yaml
 
-2d. dapetin user rabbitmq : kubectl -n default  get secret rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
+2d. dapetin user rabbitmq : kubectl -n rabbitmq  get secret rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
 
-2e. dapetin password rabbitmq:  kubectl -n default get secret rabbitmq-default-user -o jsonpath="{.data.password}" | base64 --decode
+2e. dapetin password rabbitmq:  kubectl -n rabbitmq get secret rabbitmq-default-user -o jsonpath="{.data.password}" | base64 --decode
 
-2f. kubectl get service rabbitmq -o jsonpath='{.spec.clusterIP}'
+2f. kubectl get service rabbitmq -o jsonpath='{.spec.clusterIP}' -n rabbitmq
 
 conURL := amqp://<yang_didapet_dari_2c>:<yang_didapet_dari2d>@<yang_didapet_dari_2g>:5672/
 contoh:

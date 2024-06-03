@@ -21,7 +21,7 @@ spec:
           - name: MONGO_URL
             value: mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false&readPreference=secondaryPreferred
           - name: RABBITMQ_ADDRESS
-            value: amqp://default_user_qBofhrkSzzUoEDWve1t:ZciKwWU3f4ev5dFjmBnIMNDnvr4MjKfr@10.108.25.30:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
+            value: amqp://default_user_BOelQt8vxauYDMZRMqq%:IyqQrk-a0BNgWv6EeLAnYGgR6U8rSdh6@10.233.61.171:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
           - name: MONGO_WRITE_URL
             value:  mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false
          

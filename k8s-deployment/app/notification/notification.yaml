@@ -19,7 +19,7 @@ spec:
         imagePullPolicy: Always
         env:
           - name: RABBITMQ_HOST
-            value: amqp://default_user_qBofhrkSzzUoEDWve1t:ZciKwWU3f4ev5dFjmBnIMNDnvr4MjKfr@10.108.25.30:5672/ # sesuain sama ip service headless rabbitmq
+            value: amqp://default_user_BOelQt8vxauYDMZRMqq:IyqQrk-a0BNgWv6EeLAnYGgR6U8rSdh6@10.233.61.171:5672/ # sesuain sama ip service headless rabbitmq
           
         resources:
           limits:
