@@ -6,7 +6,7 @@ metadata:
 spec:
   members: 3
   type: ReplicaSet
-  version: "4.2.6" # cpu vps gak suport avx , jadi gak bisa versi 5 keatas (https://github.com/mongodb/mongodb-kubernetes-operator/issues/959)
+  version: "4.4.27" # cpu vps gak suport avx , jadi gak bisa versi 5 keatas (https://github.com/mongodb/mongodb-kubernetes-operator/issues/959)
   security:
     authentication:
       modes: ["SCRAM"]
@@ -41,6 +41,9 @@ spec:
                 requests:
                   cpu: "0.2"
                   memory: 200M
+              volumeMounts:
+                - name: log-volume
+                  mountPath: /var/log/mongodb-mms-automation
             - name: mongodb-agent
               resources:
                 limits:
@@ -49,6 +52,9 @@ spec:
                 requests:
                   cpu: "0.2"
                   memory: 200M
+              volumeMounts:
+                - name: log-volume
+                  mountPath: /var/log/mongodb-mms-automation
           initContainers:
             - name: mongodb-agent-readinessprobe
               resources:
@@ -58,7 +64,9 @@ spec:
                 requests:
                   cpu: "1"
                   memory: 100M
-
+          volumes:
+            - name: log-volume
+              emptyDir: {}
 # the user credentials will be generated from this secret
 # once the credentials are generated, this secret is no longer required
 ---
