@@ -42,14 +42,14 @@ spec:
                   cpu: "0.2"
                   memory: 200M
              
-            - name: mongodb-agent
-              resources:
-                limits:
-                  cpu: "1"
-                  memory: 1000M
-                requests:
-                  cpu: "0.2"
-                  memory: 200M
+            # - name: mongodb-agent ## udah pernah pake volume gak bisa error , yang belum dicoba container ini dicomment
+            #   resources: 
+            #     limits:
+            #       cpu: "1"
+            #       memory: 1000M
+            #     requests:
+            #       cpu: "0.2"
+            #       memory: 200M
               
           initContainers:
             - name: mongodb-agent-readinessprobe
