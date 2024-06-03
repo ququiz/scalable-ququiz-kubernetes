@@ -45,14 +45,12 @@ spec:
             - name: mongodb-agent
               resources:
                 limits:
-                  cpu: "0.4"
-                  memory: 400M
+                  cpu: "1"
+                  memory: 1000M
                 requests:
                   cpu: "0.2"
                   memory: 200M
-              volumeMounts:
-                - name: log-volume
-                  mountPath: /var/log/mongodb-mms-automation
+              
           initContainers:
             - name: mongodb-agent-readinessprobe
               resources:
@@ -62,9 +60,7 @@ spec:
                 requests:
                   cpu: "1"
                   memory: 100M
-          volumes:
-            - name: log-volume
-              emptyDir: {}
+     
 # the user credentials will be generated from this secret
 # once the credentials are generated, this secret is no longer required
 ---
