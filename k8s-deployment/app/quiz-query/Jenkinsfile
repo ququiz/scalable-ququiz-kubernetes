@@ -16,7 +16,7 @@ node {
                         sh "git config user.name lintang-b-s"
                         //sh "git switch master"
                         sh "cat k8s-deployment/app/quiz-query/quiz-query.yaml"
-                        sh "sed -i 's+docker.io/lintangbirdas/scoring-service.*+docker.io/lintangbirdas/scoring-service:${DOCKERTAG}+g' k8s-deployment/app/quiz-query/quiz-query.yaml"
+                        sh "sed -i 's+docker.io/lintangbirdas/quiz-query-service.*+docker.io/lintangbirdas/quiz-query-service:${DOCKERTAG}+g' k8s-deployment/app/quiz-query/quiz-query.yaml"
                         sh "cat k8s-deployment/app/quiz-query/quiz-query.yaml"
                         sh "git add ."
                         sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
