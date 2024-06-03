@@ -12,6 +12,7 @@ spec:
       labels:
         app:  auth
     spec:
+      replicas: 3
       containers:
       - name:  auth
         image: docker.io/lintangbirdas/ququiz-auth-adam:v1.0

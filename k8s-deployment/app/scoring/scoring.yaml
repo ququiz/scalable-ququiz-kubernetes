@@ -12,13 +12,14 @@ spec:
       labels:
         app:  scoring
     spec:
+      replicas: 3
       containers:
       - name:  scoring
         image: docker.io/lintangbirdas/quiz-query-service:2
         imagePullPolicy: Always
         env:
           - name: MONGO_URL
-            value: mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false&readPreference=ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local
+            value: mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false&readPreference=secondaryPreferred
           - name: RABBITMQ_ADDRESS
             value: amqp://default_user_qBofhrkSzzUoEDWve1t:ZciKwWU3f4ev5dFjmBnIMNDnvr4MjKfr@10.108.25.30:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
           - name: MONGO_WRITE_URL
@@ -36,8 +37,8 @@ spec:
           #   value: lintang-transcoder-worker-service.default.svc.cluster.local:9995
         resources:
           limits:
-            memory: "1000Mi"
-            cpu: "1500m"
+            memory: "700Mi"
+            cpu: "800m"
         ports:
         - containerPort: 3503
           name: rest-api

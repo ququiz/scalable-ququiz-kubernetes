@@ -12,6 +12,7 @@ spec:
       labels:
         app:  notification
     spec:
+      replicas: 3
       containers:
       - name:  notification
         image: docker.io/lintangbirdas/ququiz-notification-service-bagas:1
