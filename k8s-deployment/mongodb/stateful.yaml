@@ -1,0 +1,71 @@
+---
+  apiVersion: "apps/v1"
+  kind: "StatefulSet"
+  metadata:
+    name: "mongo-db"
+    namespace: "default"
+  spec:
+    selector:
+      matchLabels:
+        app: "mongo-db"
+    replicas: 1
+    template:
+      metadata:
+        labels:
+          app: "mongo-db"
+      spec:
+        containers:
+          -
+            name: "mongo-db"
+            image: "mongo:4.4.18"
+            imagePullPolicy: "IfNotPresent"
+            # command:  # ini bikin gakbisa connect ke mongo
+            #   - mongod 
+            #   - "--bind_ip_all"
+            #   - "--replSet"
+            #   - rs0
+            ports:
+              -
+                containerPort: 27017
+                name: "mongodb"
+            volumeMounts:
+              -
+                name: "mongodb-persistent-storage"
+                mountPath: "/data/db"
+        volumes:
+          -
+            name: "mongodb-persistent-storage"
+            persistentVolumeClaim:
+              claimName: "mongodb-pvc"
+---
+  apiVersion: "v1"
+  kind: "Service"
+  metadata:
+    name: "mongo-db"
+    namespace: "default"
+    labels:
+      app: "mongo-db"
+  spec:
+    ports:
+      -
+        name: "mongodb"
+        port: 27017
+        nodePort: 30332
+    type: "NodePort"
+    selector:
+      app: "mongo-db"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo
+  labels:
+    app: mongo
+spec:
+  ports:
+  - name: mongo
+    port: 27017
+    targetPort: 27017
+  clusterIP: None
+  selector:
+    app: "mongo-db"
