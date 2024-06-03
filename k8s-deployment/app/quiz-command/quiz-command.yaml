@@ -15,7 +15,7 @@ spec:
       replicas: 3
       containers:
       - name:  quiz-command
-        image: docker.io/lintangbirdas/quiz-command-service-adam:9
+        image: docker.io/lintangbirdas/quiz-command-service-adam:10
         imagePullPolicy: Always
         env:
           - name: MONGO_USERNAME
