@@ -6,7 +6,7 @@ metadata:
 spec:
   members: 3
   type: ReplicaSet
-  version: "4.2.7" # cpu vps gak suport avx , jadi gak bisa versi 5 keatas (https://github.com/mongodb/mongodb-kubernetes-operator/issues/959)
+  version: "4.2.6" # cpu vps gak suport avx , jadi gak bisa versi 5 keatas (https://github.com/mongodb/mongodb-kubernetes-operator/issues/959)
   security:
     authentication:
       modes: ["SCRAM"]
