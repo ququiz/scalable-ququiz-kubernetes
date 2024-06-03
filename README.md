@@ -9,7 +9,33 @@
 ```
 https://stackoverflow.com/questions/46852169/no-primary-detected-for-set-mongo-shell
 
+argocd repo add  git@github.com:ququiz/argocd-k8s-ququiz.git  --ssh-private-key-path ./id_rsa
 
+pull image lama : sudo systemctl restart kubelet
+coredns crashloopbackoff:
+kubectl edit configmap coredns -n kube-system 
+isinya: 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+            pods insecure
+            fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        forward . 8.8.8.8 8.8.4.4
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
 ```
 ### Setup Redis, Mongodb, dll.
 
@@ -185,16 +211,56 @@ kubectl apply -f pv-data.yaml
 kubectl apply -f pv-data2.yaml
 kubectl apply -f pv-data3.yaml
 
+---- justmeandopensource mongodb----
+kubectl apply -f . -n mongo
 
+
+
+----mongodb gakbisa homemade---
+cd homemademongo 
+kubectl apply -f configmap.yaml -n mongo
+kubectl apply -f secret.yaml -n mongo
+kubectl apply -f replicasetmongo.yaml -n mongo
+
+---- mongodb gakbisa bitnami helm----
+cd ~/scalable/k8s/mongodb
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install ququiz-mongodb-db bitnami/mongodb --version 15.2.0  -f values.yml -n mongodb (gakbisa)
+
+helm install ququiz-mongodb-dbs bitnami/mongodb --version 14.4.0  -f values.yml -n mongodb 
+
+helm install my-release oci://registry-1.docker.io/bitnamicharts/mongodb (gakbisa)
+
+
+MongoDB&reg; can be accessed on the following DNS name(s) and ports from within your cluster:
+
+    ququiz-mongodb-dbs-0.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017
+    ququiz-mongodb-dbs-1.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017
+    ququiz-mongodb-dbs-2.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017
+
+To get the root password run:
+
+    export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb ququiz-mongodb-dbs -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
+
+To connect to your database, create a MongoDB&reg; client container:
+
+    kubectl run --namespace mongodb ququiz-mongodb-dbs-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:7.0.4-debian-11-r0 --command -- bash
+
+Then, run the following command:
+    mongosh admin --host "ququiz-mongodb-dbs-0.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017,ququiz-mongodb-dbs-1.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017,ququiz-mongodb-dbs-2.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017" --authenticationDatabase admin -u $MONGODB_ROOT_USER -p $MONGODB_ROOT_PASSWORD
+
+docker pull docker.io/bitnami/mongodb:7.0.11-debian-12-r0 lama (terbaru)
 
 
 ----mongodb------
-
+## gakbisa ajg , status running tapi diconnect gakbisa
 -  helm repo add mongodb https://mongodb.github.io/helm-charts
 - helm install community-operator mongodb/community-operator --namespace mongodb  --create-namespace
 - kubectl apply -f mongo_sample_cr.yaml --namespace mongodb (ini gakusah biar argo cd yang deploy)
  kubectl get secret ququiz-db-mongodb-admin-admin    -n mongodb \
 -o json | jq -r '.data | with_entries(.value |= @base64d)'
+
+sama sekali app go nya gakbisa connect ke mongo dari operator community ini
 
 ---- rabbitmq----
 sudo mkdir -p /data/volumes/rabbitmq

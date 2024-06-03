@@ -13,7 +13,7 @@ spec:
   accessModes:
     - ReadWriteOnce # most common mode, but check your application requirement
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: "" # no storage class , harus tanpa storageclass biar bisa jalan mongodbnya
+  storageClassName: "local-storage" # no storage class , harus tanpa storageclass biar bisa jalan mongodbnya
   local:
     path: /data/volumes/pv-mongodb-logs-2  # update this path according to your needs
   nodeAffinity:
@@ -23,4 +23,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - node1 # replace this with your actual node name
+                - node2 # replace this with your actual node name

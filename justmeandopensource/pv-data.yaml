@@ -3,7 +3,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-example-mongodb-ququiz-3
+  name: pv-example-mongodb-ququiz-homemade1
   labels:
     app: example-mongodb-svc
 spec:
@@ -15,7 +15,7 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "local-storage" # no storage class , harus tanpa storageclass biar bisa jalan mongodbnya
   local:
-    path: /data/volumes/pv-mongodb-data-3  # update this path according to your needs
+    path: /data/volumes/pv-mongodb-data  # update this path according to your needs
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -23,4 +23,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - node2 # replace this with your actual node name
+                - node1 # replace this with your actual node name

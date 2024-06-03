@@ -1,0 +1,12 @@
+architecture: replicaset
+replicaCount: 3
+persistence:
+  enabled: true
+  storageClass: local-storage
+  accessModes:
+    - ReadWriteOnce
+  size: 10Gi
+resources:
+limits:
+  memory: 1Gi
+  cpu: 1.5
