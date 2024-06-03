@@ -30,6 +30,9 @@ spec:
             value: lintang
           - name: APP_ENV
             value: k8s
+          - name: MONGO_DB
+            value: test
+        
           # - name: DKRON_URL
           #   value: http://dkron-svc:8080/v1/jobs
           # - name: TRANSCODER_WORKER_URL

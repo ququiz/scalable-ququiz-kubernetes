@@ -28,7 +28,7 @@ spec:
             value: '27017'
           - name: DKRON_URL
             value: http://dkron-svc:8080/v1/jobs
-          
+         
         resources:
           limits:
             memory: "700Mi"
