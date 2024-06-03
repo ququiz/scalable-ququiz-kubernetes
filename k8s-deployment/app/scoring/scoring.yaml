@@ -12,19 +12,19 @@ spec:
       labels:
         app:  scoring
     spec:
-      replicas: 3
+      replicas: 1
       containers:
       - name:  scoring
         image: docker.io/lintangbirdas/quiz-query-service:2
         imagePullPolicy: Always
         env:
           - name: MONGO_URL
-            value: mongodb://mongo-db-0.mongo.default.svc.cluster.local:27017
+            value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0
             #value: mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false&readPreference=secondaryPreferred
           - name: RABBITMQ_ADDRESS
             value: amqp://default_user_BOelQt8vxauYDMZRMqq:IyqQrk-a0BNgWv6EeLAnYGgR6U8rSdh6@10.233.61.171:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
           - name: MONGO_WRITE_URL
-            value: mongodb://mongo-db-0.mongo.default.svc.cluster.local:27017
+            value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0
             # value:  mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false
          
           - name: REDIS_ADDR

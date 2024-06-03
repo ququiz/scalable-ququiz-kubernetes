@@ -185,77 +185,47 @@ EOF
 
 
 ---setup volume mongodb
+sudo rm -rf /data/volumes/pv-mongodb-st 
+sudo rm -rf /data/volumes/pv-mongodb-st2 
+sudo rm -rf /data/volumes/pv-mongodb-st3 
 cd mongodb
-sudo mkdir /data/volumes/pv-mongodb-data
-sudo mkdir /data/volumes/pv-mongodb-data-2
+sudo mkdir /data/volumes/pv-mongodb-st 
+sudo mkdir /data/volumes/pv-mongodb-st2
+sudo mkdir /data/volumes/pv-mongodb-st3
 
-sudo mkdir /data/volumes/pv-mongodb-data-3
-
-sudo mkdir /data/volumes/pv-mongodb-logs
-
-sudo mkdir /data/volumes/pv-mongodb-logs-2
-sudo mkdir /data/volumes/pv-mongodb-logs-3
-
-sudo chmod 777  /data/volumes/pv-mongodb-data
-sudo chmod 777  /data/volumes/pv-mongodb-data-2
-sudo chmod 777  /data/volumes/pv-mongodb-data-3
-sudo chmod 777 /data/volumes/pv-mongodb-logs
-sudo chmod 777 /data/volumes/pv-mongodb-logs-2
-sudo chmod 777 /data/volumes/pv-mongodb-logs-3
-
-
-kubectl apply -f pv-logs.yaml
-kubectl apply -f pv-logs2.yaml
-kubectl apply -f pv-logs3.yaml
-kubectl apply -f pv-data.yaml
-kubectl apply -f pv-data2.yaml
-kubectl apply -f pv-data3.yaml
-
----- justmeandopensource mongodb----
-kubectl apply -f . -n mongo
+sudo chmod 777  /data/volumes/pv-mongodb-st 
+sudo chmod 777  /data/volumes/pv-mongodb-st2
+sudo chmod 777  /data/volumes/pv-mongodb-st3
 
 
 
-----mongodb gakbisa homemade---
-cd homemademongo 
-kubectl apply -f configmap.yaml -n mongo
-kubectl apply -f secret.yaml -n mongo
-kubectl apply -f replicasetmongo.yaml -n mongo
 
----- mongodb gakbisa bitnami helm----
-cd ~/scalable/k8s/mongodb
-helm repo add bitnami https://charts.bitnami.com/bitnami
-hhelm install ququiz-mongodb-dbs bitnami/mongodb --version 12.1.30  -f values.yaml -n mongodb 
-(versi terbaru gak bisa cpu vps gak support)
+kubectl apply -f pv1.yaml
+kubectl apply -f pv2.yaml
+kubectl apply -f pv3.yaml
 
 
-MongoDB&reg; can be accessed on the following DNS name(s) and ports from within your cluster:
+---- mongodb (operator community , bitnami gak bisa ,justmeandopensource jg gakbisa)----
 
-    ququiz-mongodb-dbs-0.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017
-    ququiz-mongodb-dbs-1.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017
-    ququiz-mongodb-dbs-2.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017
+https://irshitmukherjee55.hashnode.dev/a-tale-of-deploying-mongodb-in-k8s-statefulsetsheadless-service
 
-To get the root password run:
-
-    export MONGODB_ROOT_PASSWORD=$(kubectl get secret --namespace mongodb ququiz-mongodb-dbs -o jsonpath="{.data.mongodb-root-password}" | base64 -d)
-
-To connect to your database, create a MongoDB&reg; client container:
-
-    kubectl run --namespace mongodb ququiz-mongodb-dbs-client --rm --tty -i --restart='Never' --env="MONGODB_ROOT_PASSWORD=$MONGODB_ROOT_PASSWORD" --image docker.io/bitnami/mongodb:5.0.10-debian-11-r1 --command -- bash
-
-Then, run the following command:
-    mongosh admin --host "ququiz-mongodb-dbs-0.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017,ququiz-mongodb-dbs-1.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017,ququiz-mongodb-dbs-2.ququiz-mongodb-dbs-headless.mongodb.svc.cluster.local:27017" --authenticationDatabase admin -u root -p $MONGODB_ROOT_PASSWORD
-
-
-----mongodb------
-## gakbisa ajg , status running tapi diconnect gakbisa
--  helm repo add mongodb https://mongodb.github.io/helm-charts
-- helm install community-operator mongodb/community-operator --namespace mongodb  --create-namespace
-- kubectl apply -f mongo_sample_cr.yaml --namespace mongodb (ini gakusah biar argo cd yang deploy)
- kubectl get secret ququiz-db-mongodb-admin-admin    -n mongodb \
--o json | jq -r '.data | with_entries(.value |= @base64d)'
-
-sama sekali app go nya gakbisa connect ke mongo dari operator community ini
+  rs.initiate({
+        "_id" : "rs0",
+        "members" : [
+                {
+                        "_id" : 0,
+                        "host" : "mongo-0.mongo:27017",
+                },
+                {
+                        "_id" : 1,
+                        "host" : "mongo-1.mongo:27017",
+                },
+                {
+                        "_id" : 2,
+                        "host" : "mongo-2.mongo:27017",
+                }
+        ]
+})
 
 ---- rabbitmq----
 sudo mkdir -p /data/volumes/rabbitmq

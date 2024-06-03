@@ -1,21 +1,19 @@
-# pv/pv-data.yaml
-
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-example-mongodb-ququiz-logs-1
+  name: pv-example-mongodb-ququiz-13
   labels:
     app: example-mongodb-svc
 spec:
   capacity:
-    storage: 5Gi # update this according to your needs
+    storage: 10Gi # update this according to your needs
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce # most common mode, but check your application requirement
   persistentVolumeReclaimPolicy: Retain
   storageClassName: "local-storage" # no storage class , harus tanpa storageclass biar bisa jalan mongodbnya
   local:
-    path: /data/volumes/pv-mongodb-logs  # update this path according to your needs
+    path: /data/volumes/pv-mongodb-st3  # update this path according to your needs
   nodeAffinity:
     required:
       nodeSelectorTerms:
@@ -23,4 +21,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - node2 # replace this with your actual node name
+                - node1 # replace this with your actual node nam

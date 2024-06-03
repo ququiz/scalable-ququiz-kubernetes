@@ -1,71 +1,91 @@
----
-  apiVersion: "apps/v1"
-  kind: "StatefulSet"
-  metadata:
-    name: "mongo-db"
-    namespace: "default"
-  spec:
-    selector:
-      matchLabels:
-        app: "mongo-db"
-    replicas: 1
-    template:
-      metadata:
-        labels:
-          app: "mongo-db"
-      spec:
-        containers:
-          -
-            name: "mongo-db"
-            image: "mongo:4.4.18"
-            imagePullPolicy: "IfNotPresent"
-            # command:  # ini bikin gakbisa connect ke mongo
-            #   - mongod 
-            #   - "--bind_ip_all"
-            #   - "--replSet"
-            #   - rs0
-            ports:
-              -
-                containerPort: 27017
-                name: "mongodb"
-            volumeMounts:
-              -
-                name: "mongodb-persistent-storage"
-                mountPath: "/data/db"
-        volumes:
-          -
-            name: "mongodb-persistent-storage"
-            persistentVolumeClaim:
-              claimName: "mongodb-pvc"
----
-  apiVersion: "v1"
-  kind: "Service"
-  metadata:
-    name: "mongo-db"
-    namespace: "default"
-    labels:
-      app: "mongo-db"
-  spec:
-    ports:
-      -
-        name: "mongodb"
-        port: 27017
-        nodePort: 30332
-    type: "NodePort"
-    selector:
-      app: "mongo-db"
----
-apiVersion: v1
-kind: Service
+apiVersion: apps/v1
+kind: StatefulSet
 metadata:
   name: mongo
-  labels:
-    app: mongo
 spec:
-  ports:
-  - name: mongo
-    port: 27017
-    targetPort: 27017
-  clusterIP: None
   selector:
-    app: "mongo-db"
+    matchLabels:
+      app: mongo
+  serviceName: "mongo"
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:4.0.8
+          resources:
+            limits: 
+              memory: "1000Mi"
+              cpu: "1500m"
+          startupProbe:
+            exec:
+              command:
+                - mongo
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 2
+          livenessProbe:
+            exec:
+              command:
+                - mongo
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 2
+          readinessProbe:
+            exec:
+              command:
+                - mongo
+                - --eval
+                - "db.adminCommand('ping')"
+            initialDelaySeconds: 1
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 2
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: username
+                  name: mongodb-config
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: password
+                  name: mongodb-secret
+          command:
+            - mongod
+            - "--bind_ip_all"
+            - --config=/etc/mongo/mongodb.conf
+          volumeMounts:
+            - name: mongo-volume
+              mountPath: /data/db
+            - name: mongodb-config
+              mountPath: /etc/mongo
+      volumes:
+        - name: mongodb-config
+          configMap:
+            name: mongodb-config
+            items:
+              - key: mongodb.conf
+                path: mongodb.conf
+  volumeClaimTemplates:
+    - metadata:
+        name: mongo-volume
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-storage
+        resources:
+          requests:
+            storage: 2Gi
