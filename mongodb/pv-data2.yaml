@@ -23,4 +23,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - node2 # Replace with the name of your Kubernetes node
+                - node1 # Replace with the name of your Kubernetes node

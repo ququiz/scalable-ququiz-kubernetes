@@ -34,7 +34,8 @@ sudo chmod 777 /data/volumes/redis2
 sudo mkdir -p /data/volumes/redis3
 sudo chmod 777 /data/volumes/redis3
 
---- node sesuain nama k8s node yang mau dideploy redis/dbnya
+
+NOTES: node sesuain nama k8s node yang mau dideploy redis/dbnya
 
 
 
@@ -60,7 +61,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node2
+          - node1
 EOF
 
 
@@ -86,7 +87,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node2
+          - node1
 EOF
 
 
@@ -111,7 +112,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node2
+          - node1
 EOF
 
 
@@ -137,7 +138,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node2
+          - node1
 EOF
 
 
@@ -213,7 +214,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node2
+          - node1
 EOF
 
 
@@ -227,7 +228,7 @@ deploy rabbitmq apps
 
 ---- dkron ----
 4a. kubectl  create configmap dkroncurl  --from-file ./dkron_curl.sh
-4b. apply dkron-app di argocd
+4b. apply dkron-app di argocd (argocd aaja)
 4c. kubectl get pod
 
 4d. kubectl exec -it <nama_pod_dkron>  -- bash -c "cp curl/* bisa/ && chmod 777 bisa/dkron_curl.sh && bisa/dkron_curl.sh"
@@ -249,7 +250,7 @@ kubectl apply -f postgres/pv-postgres.yaml
 
 
 - install  postgres-app.yaml di argocd node
-- kubectl exec -n pg -it my-pgsql-cluster-1 bash
+- kubectl exec -n postgres -it my-pgsql-cluster-1 bash
 
 - psql -U postgres
 - CREATE DATABASE ququiz;
@@ -260,10 +261,6 @@ kubectl apply -f postgres/pv-postgres.yaml
 
 
 ```
-
-
-
-
 
 ## Quick Start (Minikube/k8s) (yg kujelasin works di minikube)
 
