@@ -4,7 +4,7 @@ sentinel:
 volumePermissions:
   enabled: true
 replica:
-  replicaCount: 3
+  replicaCount: 1
   persistence:
     size: 2Gi
 auth:
