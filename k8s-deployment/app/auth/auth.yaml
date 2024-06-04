@@ -1,3 +1,11 @@
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dotfile-secret
+data:
+  : dmFsdWUtMg0KDQo=
+
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -31,7 +39,7 @@ spec:
           - name: ACCESS_TOKEN_ALGORITHM
             value: ES512
           - name: JWT_PRIVATE_KEY
-            value: '-----BEGIN EC PRIVATE KEY-----\nMIHcAgEBBEIB7Dwpk55oVgPcVjTU5P4M5FsmBj6GGn1aMaQbjZQL4jBDKY2I34+G\nAhRoTVHowSaSpv9oKbmBqlNzcCsqInV6lpCgBwYFK4EEACOhgYkDgYYABACh3HAV\n2IUpZMb9lTu9c92TyjH6c1TUmbGyYjyLy1ith/pDGbAHPXeNL89mxvx0lswVjdhM\nwyKHpIrPt75xDrwhuADsGdjl9gVARPhI0dVf/NofonvQREkuxGtquZZJew1sxuep\neUiSiithd4Cf2+wtuv9E/D0NhqirgmtD44axzgsczA==\n-----END EC PRIVATE KEY-----\n'
+            value: "-----BEGIN EC PRIVATE KEY-----\nMIHcAgEBBEIB7Dwpk55oVgPcVjTU5P4M5FsmBj6GGn1aMaQbjZQL4jBDKY2I34+G\nAhRoTVHowSaSpv9oKbmBqlNzcCsqInV6lpCgBwYFK4EEACOhgYkDgYYABACh3HAV\n2IUpZMb9lTu9c92TyjH6c1TUmbGyYjyLy1ith/pDGbAHPXeNL89mxvx0lswVjdhM\nwyKHpIrPt75xDrwhuADsGdjl9gVARPhI0dVf/NofonvQREkuxGtquZZJew1sxuep\neUiSiithd4Cf2+wtuv9E/D0NhqirgmtD44axzgsczA==\n-----END EC PRIVATE KEY-----\n"
           - name: JWT_PUBLIC_KEY
             value: "-----BEGIN PUBLIC KEY-----\nMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAodxwFdiFKWTG/ZU7vXPdk8ox+nNU\n1JmxsmI8i8tYrYf6QxmwBz13jS/PZsb8dJbMFY3YTMMih6SKz7e+cQ68IbgA7BnY\n5fYFQET4SNHVX/zaH6J70ERJLsRrarmWSXsNbMbnqXlIkoorYXeAn9vsLbr/RPw9\nDYaoq4JrQ+OGsc4LHMw=\n-----END PUBLIC KEY-----\n"
           - name: REFRESH_TOKEN_ALGORITHM
