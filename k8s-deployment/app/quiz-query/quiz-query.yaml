@@ -15,7 +15,7 @@ spec:
       replicas: 1
       containers:
       - name:  quiz-query
-        image: docker.io/lintangbirdas/quiz-query-service:1
+        image: docker.io/lintangbirdas/quiz-query-service:2
         imagePullPolicy: Always
         env:
           - name: MONGO_URL
@@ -39,7 +39,7 @@ spec:
           #   value: lintang-transcoder-worker-service.default.svc.cluster.local:9995
         resources:
           limits:
-            memory: "700Mi"
+            memory: "500Mi"
             cpu: "700m"
         ports:
         - containerPort: 3503

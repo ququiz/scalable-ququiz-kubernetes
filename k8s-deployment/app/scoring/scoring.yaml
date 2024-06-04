@@ -39,7 +39,7 @@ spec:
           #   value: lintang-transcoder-worker-service.default.svc.cluster.local:9995
         resources:
           limits:
-            memory: "700Mi"
+            memory: "500Mi"
             cpu: "800m"
         ports:
         - containerPort: 3504
