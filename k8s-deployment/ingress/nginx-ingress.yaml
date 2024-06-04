@@ -27,3 +27,25 @@ spec:
               name: quiz-query-service
               port:
                 number: 3503
+        - path: /quiz-command(/|$)(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service: 
+              name: quiz-command-service
+              port:
+                number: 3000
+        - path: /scoring(/|$)(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service: 
+              name: scoring-service
+              port:
+                number: 3504
+        - path: /auth(/|$)(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service: 
+              name: auth-service
+              port:
+                number: 3000
+        
