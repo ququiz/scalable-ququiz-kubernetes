@@ -268,6 +268,19 @@ EOF
 deploy rabbitmq apps
 
 
+2d. dapetin user rabbitmq : kubectl  get secret rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
+
+2e. dapetin password rabbitmq:  kubectl  get secret rabbitmq-default-user -o jsonpath="{.data.password}" | base64 --decode
+
+2f. kubectl get service rabbitmq -o jsonpath='{.spec.clusterIP}' 
+
+conURL := amqp://<yang_didapet_dari_2c>:<yang_didapet_dari2d>@<yang_didapet_dari_2g>:5672/
+contoh:
+connURL= amqp://default_user_Z4KRpZEzc-7wictHAsl:0vpV52fDOzbx2UtHFMRDotjw27pvzB1w@10.102.74.165:5672/
+
+2i. copy conn url ke ennvironement k8s-deployment/app/*  (RABBIT_URL)
+
+
 
 ---- dkron ----
 4a. kubectl  create configmap dkroncurl  --from-file ./dkron_curl.sh
