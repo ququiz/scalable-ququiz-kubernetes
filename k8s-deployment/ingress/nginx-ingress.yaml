@@ -13,13 +13,6 @@ spec:
   - host: ""
     http:
       paths:
-        - path:  /minio(/|$)(.*)
-          pathType: ImplementationSpecific
-          backend:
-            service:
-              name:  minio-service.minio-dev
-              port:
-                number: 9000 # gakbisa ,
         - path: /nginx(/|$)(.*)
           pathType: ImplementationSpecific
           backend:
@@ -27,3 +20,10 @@ spec:
               name:  nginx-project
               port:
                 number: 80
+        - path: /quiz-query(/|$)(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service: 
+              name: quiz-query-service
+              port:
+                number: 3503

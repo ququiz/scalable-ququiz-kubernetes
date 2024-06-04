@@ -5,6 +5,11 @@
 ```
 - load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
 ```
+
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/baremetal/deploy.yaml --kubeconfig=~/.kube/config
+
+
 ### troubleshooting
 ```
 https://stackoverflow.com/questions/46852169/no-primary-detected-for-set-mongo-shell
