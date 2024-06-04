@@ -20,7 +20,22 @@ spec:
         env:
           - name: RABBITMQ_HOST
             value: amqp://default_user_m5S03wBum5eTjtM0auU:v4lzdb3Ebl1rs2V9_DzXOj40jgqG9mFQ@10.233.1.153:5672/ # sesuain sama ip service headless rabbitmq
-          
+          - name: QUEUE_UPCOMING_QUIZ
+            value: upcoming_quiz
+          - name: QUEUE_QUIZ_RESULT
+            value: quiz_result
+          - name: MAIL_HOST
+            value: smtp.gmail.com
+          - name: MAIL_PORT
+            value: 465
+          - name: MAIL_USERNAME
+            value: username
+          - name: MAIL_PASSWORD
+            value: password
+          - name: MAIL_FROM_ADDRESS
+            value: test@gmail.com
+          - name: MAIL_FROM_NAME
+            value: Ququiz
         resources:
           limits:
             memory: "300Mi"

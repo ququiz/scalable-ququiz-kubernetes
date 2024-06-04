@@ -21,7 +21,7 @@ spec:
         
           - name: MONGO_URL
             value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0&readPreference=secondaryPreferred
-          - name: DKRON_URL
+          - name: DKRON_API_URL
             value: http://dkron-svc:8080/v1/jobs
           - name: RABBITMQ_URL
             value: amqp://default_user_m5S03wBum5eTjtM0auU:v4lzdb3Ebl1rs2V9_DzXOj40jgqG9mFQ@10.233.1.153:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
@@ -31,7 +31,9 @@ spec:
             value: http://auth-service:4000
           - name: SCORING_SERVICE_URL
             value: http://scoring-service:3503
-         
+          - name: JWT_PUBLIC_KEY
+            value: "-----BEGIN PUBLIC KEY-----\nMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQAodxwFdiFKWTG/ZU7vXPdk8ox+nNU\n1JmxsmI8i8tYrYf6QxmwBz13jS/PZsb8dJbMFY3YTMMih6SKz7e+cQ68IbgA7BnY\n5fYFQET4SNHVX/zaH6J70ERJLsRrarmWSXsNbMbnqXlIkoorYXeAn9vsLbr/RPw9\nDYaoq4JrQ+OGsc4LHMw=\n-----END PUBLIC KEY-----\n"
+     
         resources:
           limits:
             memory: "500Mi"
