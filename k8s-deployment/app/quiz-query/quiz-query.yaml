@@ -42,9 +42,11 @@ spec:
             memory: "700Mi"
             cpu: "700m"
         ports:
-        - containerPort: 3504
+        - containerPort: 3503
           name: rest-api
-    
+        - containerPort: 6005
+          name: grpc
+  
   
 
 ---
@@ -57,10 +59,13 @@ spec:
     app: quiz-query
   ports:
     - name: rest-api
-      port: 3504
+      port: 3503
       protocol: TCP
-      targetPort: 3504
- 
+      targetPort: 3503
+    - name: grpc
+      port: 6005
+      protocol: TCP
+      targetPort: 6005
       # nodePort: 31203
 
   # type: NodePort

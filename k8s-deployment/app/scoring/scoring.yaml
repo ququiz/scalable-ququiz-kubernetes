@@ -42,11 +42,9 @@ spec:
             memory: "700Mi"
             cpu: "800m"
         ports:
-        - containerPort: 3503
+        - containerPort: 3504
           name: rest-api
-        - containerPort: 6005
-          name: grpc
-  
+       
 
 ---
 apiVersion: v1
@@ -58,13 +56,10 @@ spec:
     app: scoring
   ports:
     - name: rest-api
-      port: 3503
+      port: 3504
       protocol: TCP
-      targetPort: 3503
-    - name: grpc
-      port: 6005
-      protocol: TCP
-      targetPort: 6005
+      targetPort: 3504
+   
       # nodePort: 31203
 
   # type: NodePort
