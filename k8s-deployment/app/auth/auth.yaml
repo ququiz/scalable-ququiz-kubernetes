@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: auth
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: auth
@@ -12,7 +13,6 @@ spec:
       labels:
         app:  auth
     spec:
-      replicas: 1
       containers:
       - name:  auth
         image: docker.io/lintangbirdas/ququiz-auth-adam:1

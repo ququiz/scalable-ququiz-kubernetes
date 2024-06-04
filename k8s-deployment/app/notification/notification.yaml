@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: notification
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: notification
@@ -12,7 +13,6 @@ spec:
       labels:
         app:  notification
     spec:
-      replicas: 1
       containers:
       - name:  notification
         image: docker.io/lintangbirdas/ququiz-notification-service-bagas:1

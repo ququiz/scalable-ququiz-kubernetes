@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: scoring
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: scoring
@@ -12,7 +13,6 @@ spec:
       labels:
         app:  scoring
     spec:
-      replicas: 1
       containers:
       - name:  scoring
         image: docker.io/lintangbirdas/scoring-service:3
@@ -26,14 +26,14 @@ spec:
           - name: MONGO_WRITE_URL
             value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0
             # value:  mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false
-         
+          
           - name: REDIS_ADDR
             value: redis-headless.redis:6379
           - name: REDIS_PASSWORD
             value: lintang
           - name: APP_ENV
             value: k8s
-           # - name: DKRON_URL
+            # - name: DKRON_URL
           #   value: http://dkron-svc:8080/v1/jobs
           # - name: TRANSCODER_WORKER_URL
           #   value: lintang-transcoder-worker-service.default.svc.cluster.local:9995

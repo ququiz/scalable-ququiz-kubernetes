@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: quiz-command
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: quiz-command
@@ -12,7 +13,6 @@ spec:
       labels:
         app:  quiz-command
     spec:
-      replicas: 1
       containers:
       - name:  quiz-command
         image: docker.io/lintangbirdas/quiz-command-service-adam:15
