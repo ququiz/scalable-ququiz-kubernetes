@@ -30,8 +30,8 @@ spec:
             value: ququiz
         resources:
           limits:
-            memory: "700Mi"
-            cpu: "700m"
+            memory: "500Mi"
+            cpu: "500m"
         ports:
         - containerPort: 3000
           name: rest-api

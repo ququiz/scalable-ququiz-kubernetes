@@ -19,7 +19,7 @@ spec:
           resources:
             limits: 
               memory: "1000Mi"
-              cpu: "1500m"
+              cpu: "1000m"
           startupProbe:
             exec:
               command:

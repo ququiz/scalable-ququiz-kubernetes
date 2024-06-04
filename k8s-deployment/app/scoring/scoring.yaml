@@ -39,8 +39,8 @@ spec:
           #   value: lintang-transcoder-worker-service.default.svc.cluster.local:9995
         resources:
           limits:
-            memory: "500Mi"
-            cpu: "800m"
+            memory: "300Mi"
+            cpu: "300m"
         ports:
         - containerPort: 3504
           name: rest-api
