@@ -7,10 +7,10 @@ spec:
   resources:
     requests:
       cpu: 400m
-      memory: 500m
+      memory: 400Mi
     limits:
       cpu: 800m
-      memory: 1Gi
+      memory: 800Mi
   persistence:
     storageClassName: local-storage
     storage: 5Gi
