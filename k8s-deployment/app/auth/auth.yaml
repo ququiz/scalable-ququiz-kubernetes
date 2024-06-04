@@ -1,10 +1,4 @@
 
-apiVersion: v1
-kind: Secret
-metadata:
-  name: dotfile-secret
-data:
-  : dmFsdWUtMg0KDQo=
 
 ---
 apiVersion: apps/v1
