@@ -15,7 +15,7 @@ spec:
       replicas: 1
       containers:
       - name:  quiz-command
-        image: docker.io/lintangbirdas/quiz-command-service-adam:14
+        image: docker.io/lintangbirdas/quiz-command-service-adam:15
         imagePullPolicy: Always
         env:
         
