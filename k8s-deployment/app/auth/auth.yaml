@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name:  auth
-        image: docker.io/lintangbirdas/ququiz-auth-adam:4
+        image: docker.io/lintangbirdas/ququiz-auth-adam:5
         imagePullPolicy: Always
         env:
           - name: POSTGRES_USER
