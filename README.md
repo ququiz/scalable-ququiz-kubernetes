@@ -226,7 +226,7 @@ kubectl apply -f pv3.yaml
 ---- mongodb (operator community , bitnami gak bisa ,justmeandopensource jg gakbisa)----
 
 https://irshitmukherjee55.hashnode.dev/a-tale-of-deploying-mongodb-in-k8s-statefulsetsheadless-service
-
+ kubectl exec -it mongo-0 -- mongo
   rs.initiate({
         "_id" : "rs0",
         "members" : [
@@ -244,6 +244,9 @@ https://irshitmukherjee55.hashnode.dev/a-tale-of-deploying-mongodb-in-k8s-statef
                 }
         ]
 })
+
+rs.status()
+
 
 ---- rabbitmq----
 sudo mkdir -p /data/volumes/rabbitmq
