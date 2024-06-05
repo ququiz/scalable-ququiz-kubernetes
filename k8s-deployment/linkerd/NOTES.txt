@@ -1,0 +1,9 @@
+gak bisa semua mau pake cni , poststart lifecycle disabled, tetep gak bisa linkerd
+
+istio jg gabisa , 403 forbidden setiap kali request masuk 
+
+
+
+
+
+
