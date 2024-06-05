@@ -24,7 +24,7 @@ spec:
           - name: DKRON_API_URL
             value: http://dkron-svc:8080/v1
           - name: RABBITMQ_URL
-            value: amqp://default_user_WnmSTbpsBjy12WZDWeP:cX_S2FGPkG83N389uoRDFsXwzffRTTYI@10.233.38.170:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
+            value: amqp://default_user_WnmSTbpsBjy12WZDWeP:cX_S2FGPkG83N389uoRDFsXwzffRTTYI@10.233.30.56:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
           - name: QUIZ_SERVICE_URL
             value: http://quiz-query-service:3000
           - name: USERS_SERVICE_GRPC_URL
