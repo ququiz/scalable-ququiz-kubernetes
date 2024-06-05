@@ -14,6 +14,6 @@ spec:
   persistence:
     storageClassName: local-storage
     storage: 5Gi
-  rabbitmq:
-    additionalPlugins:
-      - rabbitmq_management
+#  rabbitmq:
+  #  additionalPlugins:
+    #  - rabbitmq_management
