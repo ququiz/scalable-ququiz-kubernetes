@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: Always
         env:
           - name: RABBITMQ_HOST
-            value: amqp://default_user_Hn7lG7OP_svNjgQnVDn:g2uyG0moy0BqvHb7gY2fG0FyoI8ZgAks@10.233.54.120:5672/ # sesuain sama ip service headless rabbitmq
+            value: amqp://default_user_wZsygs3nP7Kc78PXRkN:BjMces5U-aBEdzsG3vBJ-P_aYwfh9EXv@10.233.40.63:5672/ # sesuain sama ip service headless rabbitmq
           - name: QUEUE_UPCOMING_QUIZ
             value: upcoming_quiz
           - name: QUEUE_QUIZ_RESULT
