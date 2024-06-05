@@ -14,4 +14,3 @@ spec:
   persistence:
     storageClassName: local-storage
     storage: 5Gi
- 
