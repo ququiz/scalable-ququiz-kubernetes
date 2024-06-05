@@ -9,6 +9,10 @@
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/baremetal/deploy.yaml --kubeconfig=~/.kube/config
 
+### NOTES
+cilium
+jangan pernah install ulang cilium cni, bakal errror networkingnya cluster nanti
+```
 
 ### troubleshooting
 ```
@@ -41,6 +45,15 @@ data:
         reload
         loadbalance
     }
+
+
+    yg line ini diganti :  forward . /etc/resolv.conf {
+          prefer_udp
+          max_concurrent 1000
+        }
+delete coredns yg crashloopbackoff
+
+
 ```
 ### Setup Redis, Mongodb, dll.
 
@@ -265,7 +278,7 @@ EOF
 
 1. kubectl apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
 1b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
-deploy rabbitmq apps
+deploy rabbitmq apps (argocd)
 
 
 2d. dapetin user rabbitmq : kubectl  get secret rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
@@ -382,9 +395,6 @@ connURL= amqp://default_user_Z4KRpZEzc-7wictHAsl:0vpV52fDOzbx2UtHFMRDotjw27pvzB1
 4f. copy conURl dkron ke environment  k8s-deployment/app/*  (DKRON_URL)
 
 
----nginx ingress---
-5a. minikube addons enable ingress
-5b. minikube ip (copy ip nya)
 
 
 

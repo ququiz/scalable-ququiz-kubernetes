@@ -53,17 +53,17 @@ spec:
             timeoutSeconds: 5
             successThreshold: 1
             failureThreshold: 2
-          env:
-            - name: MONGO_INITDB_ROOT_USERNAME
-              valueFrom:
-                configMapKeyRef:
-                  key: username
-                  name: mongodb-config
-            - name: MONGO_INITDB_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: mongodb-secret
+          # env:
+          #   - name: MONGO_INITDB_ROOT_USERNAME
+          #     valueFrom:
+          #       configMapKeyRef:
+          #         key: username
+          #         name: mongodb-config
+          #   - name: MONGO_INITDB_ROOT_PASSWORD
+          #     valueFrom:
+          #       secretKeyRef:
+          #         key: password
+          #         name: mongodb-secret
           command:
             - mongod
             - "--bind_ip_all"
