@@ -7,11 +7,16 @@
 ```
 
 
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/baremetal/deploy.yaml --kubeconfig=~/.kube/config
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/baremetal/deploy.yaml --kubeconfig=/home/lintang/.kube/config
 
-### NOTES
 cilium
 jangan pernah install ulang cilium cni, bakal errror networkingnya cluster nanti
+
+jangan pernah hapus cni di /etc/cni.d  tau di /opt/bin/cni,bikin error clusternya
+
+
+
+https://github.com/cilium/hubble/issues/1356
 ```
 
 ### troubleshooting
@@ -55,6 +60,55 @@ delete coredns yg crashloopbackoff
 
 
 ```
+
+### serice mesh? gak usah pake cilium & hubble aja
+```
+gak usah pake service mesh, udah coba install linkerd & istio malah error pod ingress istio/pod linkerdnya
+
+
+cilium hubble ui --open-browser=false
+dari laptopku: ssh -L 8000:localhost:12000 lintang@10.70.70.1
+
+
+```
+
+### Linkerd
+```
+https://linkerd.io/2.15/getting-started/ (gakbisa)
+
+linkerd install --crds | kubectl apply -f - --kubeconfig=/home/lintang/.kube/config
+
+https://linkerd.io/2.15/features/cni/#using-the-cli, sama aja gabisa
+
+https://github.com/linkerd/linkerd2/issues/7493
+
+
+linkerd install-cni | kubectl apply -f -
+linkerd install --crds | kubectl apply -f -
+linkerd install --linkerd-cni-enabled | kubectl apply -f - 
+gakbisa semua
+
+https://linkerd.io/2.15/reference/cluster-configuration/#gke
+pake linkerd-control-plane  + cni  + disable poststart, await=false sama aja tetep gakbisa
+
+kubespray gak bisa pake service mesh ...
+```
+
+### istio
+```
+
+tar -zxvf https://github.com/istio/istio/releases/download/1.15.0/istio-1.15.0-linux-amd64.tar.gz
+
+taint noschedule dulu di semua node yg bukan jadi tempat deploy istio ingress..
+istioctl install
+
+https://docs.tigera.io/calico/latest/network-policy/istio/app-layer-policy
+istio biasa tanpa cni gakbisa, 403 forbidden di google gak ada solusi
+gak bisa semua 
+
+```
+
+
 ### Setup Redis, Mongodb, dll.
 
 ```
@@ -226,6 +280,9 @@ kubectl apply -f pv3.yaml
 ---- mongodb (operator community , bitnami gak bisa ,justmeandopensource jg gakbisa)----
 
 https://irshitmukherjee55.hashnode.dev/a-tale-of-deploying-mongodb-in-k8s-statefulsetsheadless-service
+
+k apply -f configmap.yaml
+
  kubectl exec -it mongo-0 -- mongo
   rs.initiate({
         "_id" : "rs0",
