@@ -19,3 +19,4 @@ spec:
       default_user=guest
       default_pass=guest
       loopback_users = none
+
