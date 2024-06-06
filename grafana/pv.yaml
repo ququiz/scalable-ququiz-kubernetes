@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-grafana
+  labels:
+    app: example-grafana-svc
+spec:
+  capacity:
+    storage: 4Gi # update this according to your needs
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce # most common mode, but check your application requirement
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: "" # no storage class , harus tanpa storageclass biar bisa jalan mongodbnya
+  local:
+    path: /data/volumes/grafana  # update this path according to your needs
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - node1 # replace this with your actual node nam

@@ -23,7 +23,7 @@ spec:
           - name: MONGO_WRITE_URL
             value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0 #?replicaSet=ququiz-db-mongodb  #&readPreference=secondaryPreferred
           - name: RABBITMQ_ADDRESS
-            value: amqp://default_user_WnmSTbpsBjy12WZDWeP:cX_S2FGPkG83N389uoRDFsXwzffRTTYI@10.233.30.56:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
+            value: amqp://default_user_EZtmRyAdl7Al_Myzbka:DvFE319-ov9ESIKN49flM6NO0b1lkYqN@10.233.47.129:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
           - name: REDIS_ADDR
             value: redis-headless.redis:6379
           - name: REDIS_PASSWORD
