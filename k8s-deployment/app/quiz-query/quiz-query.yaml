@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: quiz-query
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: quiz-query
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name:  quiz-query
-        image: docker.io/lintangbirdas/quiz-query-service:12
+        image: docker.io/lintangbirdas/quiz-query-service:14
         imagePullPolicy: Always
         env:
           - name: MONGO_URL
