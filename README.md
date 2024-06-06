@@ -18,6 +18,13 @@ jangan pernah hapus cni di /etc/cni.d  tau di /opt/bin/cni,bikin error clusterny
 
 https://github.com/cilium/hubble/issues/1356
 ```
+```
+
+## Notes
+```
+jangan run rabbitmq lewat argocd, bikin gak bisa connect
+k apply -f aja langsung di vpsnya
+```
 
 ### troubleshooting
 ```
