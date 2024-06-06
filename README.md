@@ -340,6 +340,7 @@ EOF
 1b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
 deploy rabbitmq apps (argocd)
 
+https://www.rabbitmq.com/kubernetes/operator/kubectl-plugin
 
 2d. dapetin user rabbitmq : kubectl  get secret rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
 
