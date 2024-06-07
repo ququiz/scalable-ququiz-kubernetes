@@ -29,7 +29,7 @@ spec:
           - name: MAIL_HOST
             value: smtp.gmail.com
           - name: MAIL_PORT
-            value: 465
+            value: '465'
           - name: MAIL_USERNAME
             value: username
           - name: MAIL_PASSWORD
