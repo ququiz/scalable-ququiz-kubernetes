@@ -1,0 +1,12 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "default-ingress-visibility-for-http-metrics"
+spec:
+  description: "Allow HTTP GET /public from env=prod to app=service"
+  endpointSelector:
+    matchLabels:
+      "hubble-metrics": default
+  ingress:
+      - fromEndpoints:
+        - {}

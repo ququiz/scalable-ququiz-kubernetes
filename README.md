@@ -4,29 +4,62 @@
 
 ```
 - load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
-```
+- reset cluster buat config hubble metrics httpv2 (biar bisa nampilin http request metrics)
+- gak usah pake linkerd & istio karena udah coba install  (& pake cilium) tetep gakbisa
 
+
+https://github.com/cilium/cilium/issues/20130
+https://isovalent.com/videos/back-to-basics-l7-flow-visibility/
+- biar ada metrics http per pod: kubectl label pods --all-namespaces  --all hubble-metrics=default
+
+
+cilium hubble port-forward &
+hubble config set tls true
+hubble config set tls-allow-insecure true
+
+cat ~/.config/hubble/config.yaml
+tls: true
+tls-allow-insecure: true
+
+hubble status
+Healthcheck (via localhost:4245): Ok
+Current/Max Flows: 24,570/24,570 (100.00%)
+Flows/s: 51.15
+Connected Nodes: 6/6
+
+emang dari awal: Error: Unable to enable Hubble: release: not found
+
+
+
+kubectl -n kube-system get pods -l k8s-app=cilium
+kubectl -n kube-system exec cilium-69rfw -- cilium endpoint list
+```
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/baremetal/deploy.yaml --kubeconfig=/home/lintang/.kube/config
 
 cilium
 jangan pernah install ulang cilium cni, bakal errror networkingnya cluster nanti
 
-jangan pernah hapus cni di /etc/cni.d  tau di /opt/bin/cni,bikin error clusternya
-
-
+jangan pernah hapus cni di /etc/cni.d tau di /opt/bin/cni,bikin error clusternya
 
 https://github.com/cilium/hubble/issues/1356
+https://github.com/cilium/cilium/issues/13738 apply l7 ke all endpoint ingress ke semua pod di semua namespaces..
+
 ```
+
 ```
 
 ## Notes
+
 ```
 jangan run rabbitmq lewat argocd, bikin gak bisa connect
 k apply -f aja langsung di vpsnya
+
+https://github.com/cilium/cilium/blob/main/examples/kubernetes/addons/prometheus/README.md
 ```
 
 ### troubleshooting
+
 ```
 https://stackoverflow.com/questions/46852169/no-primary-detected-for-set-mongo-shell
 
@@ -34,8 +67,8 @@ argocd repo add  git@github.com:ququiz/argocd-k8s-ququiz.git  --ssh-private-key-
 
 pull image lama : sudo systemctl restart kubelet
 coredns crashloopbackoff:
-kubectl edit configmap coredns -n kube-system 
-isinya: 
+kubectl edit configmap coredns -n kube-system
+isinya:
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -69,6 +102,7 @@ delete coredns yg crashloopbackoff
 ```
 
 ### serice mesh? gak usah pake cilium & hubble aja
+
 ```
 gak usah pake service mesh, udah coba install linkerd & istio malah error pod ingress istio/pod linkerdnya
 
@@ -80,6 +114,7 @@ dari laptopku: ssh -L 8000:localhost:12000 lintang@10.70.70.1
 ```
 
 ### Linkerd
+
 ```
 https://linkerd.io/2.15/getting-started/ (gakbisa)
 
@@ -92,7 +127,7 @@ https://github.com/linkerd/linkerd2/issues/7493
 
 linkerd install-cni | kubectl apply -f -
 linkerd install --crds | kubectl apply -f -
-linkerd install --linkerd-cni-enabled | kubectl apply -f - 
+linkerd install --linkerd-cni-enabled | kubectl apply -f -
 gakbisa semua
 
 https://linkerd.io/2.15/reference/cluster-configuration/#gke
@@ -102,6 +137,7 @@ kubespray gak bisa pake service mesh ...
 ```
 
 ### istio
+
 ```
 
 tar -zxvf https://github.com/istio/istio/releases/download/1.15.0/istio-1.15.0-linux-amd64.tar.gz
@@ -111,10 +147,9 @@ istioctl install
 
 https://docs.tigera.io/calico/latest/network-policy/istio/app-layer-policy
 istio biasa tanpa cni gakbisa, 403 forbidden di google gak ada solusi
-gak bisa semua 
+gak bisa semua
 
 ```
-
 
 ### Setup Redis, Mongodb, dll.
 
@@ -171,7 +206,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - nodebiznet
 EOF
 
 
@@ -197,7 +232,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - nodebiznet
 EOF
 
 
@@ -222,7 +257,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - nodebiznet
 EOF
 
 
@@ -248,7 +283,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - nodebiznet
 EOF
 
 
@@ -264,15 +299,15 @@ EOF
 
 
 ---setup volume mongodb
-sudo rm -rf /data/volumes/pv-mongodb-st 
-sudo rm -rf /data/volumes/pv-mongodb-st2 
-sudo rm -rf /data/volumes/pv-mongodb-st3 
+sudo rm -rf /data/volumes/pv-mongodb-st
+sudo rm -rf /data/volumes/pv-mongodb-st2
+sudo rm -rf /data/volumes/pv-mongodb-st3
 cd mongodb
-sudo mkdir /data/volumes/pv-mongodb-st 
+sudo mkdir /data/volumes/pv-mongodb-st
 sudo mkdir /data/volumes/pv-mongodb-st2
 sudo mkdir /data/volumes/pv-mongodb-st3
 
-sudo chmod 777  /data/volumes/pv-mongodb-st 
+sudo chmod 777  /data/volumes/pv-mongodb-st
 sudo chmod 777  /data/volumes/pv-mongodb-st2
 sudo chmod 777  /data/volumes/pv-mongodb-st3
 
@@ -313,6 +348,7 @@ rs.status()
 
 
 ---- rabbitmq----
+
 sudo mkdir -p /data/volumes/rabbitmq
 sudo chmod 777 /data/volumes/rabbitmq
 
@@ -337,7 +373,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - node1
+          - nodebiznet
 EOF
 
 
@@ -353,7 +389,7 @@ https://www.rabbitmq.com/kubernetes/operator/kubectl-plugin
 
 2e. dapetin password rabbitmq:  kubectl  get secret rabbitmq-default-user -o jsonpath="{.data.password}" | base64 --decode
 
-2f. kubectl get service rabbitmq -o jsonpath='{.spec.clusterIP}' 
+2f. kubectl get service rabbitmq -o jsonpath='{.spec.clusterIP}'
 
 conURL := amqp://<yang_didapet_dari_2c>:<yang_didapet_dari2d>@<yang_didapet_dari_2g>:5672/
 contoh:
@@ -438,11 +474,11 @@ kubectl apply -f postgres/pv-postgres.yaml
 2b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
 2c. kubectl apply -f k8s-deployment/rabbitmq/rmq_cr.yaml
 
-2d. dapetin user rabbitmq : kubectl -n rabbitmq  get secret rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
+2d. dapetin user rabbitmq : kubectl -n default  get secret rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
 
-2e. dapetin password rabbitmq:  kubectl -n rabbitmq get secret rabbitmq-default-user -o jsonpath="{.data.password}" | base64 --decode
+2e. dapetin password rabbitmq:  kubectl -n default get secret rabbitmq-default-user -o jsonpath="{.data.password}" | base64 --decode
 
-2f. kubectl get service rabbitmq -o jsonpath='{.spec.clusterIP}' -n rabbitmq
+2f. kubectl get service rabbitmq -o jsonpath='{.spec.clusterIP}' -n default
 
 conURL := amqp://<yang_didapet_dari_2c>:<yang_didapet_dari2d>@<yang_didapet_dari_2g>:5672/
 contoh:
