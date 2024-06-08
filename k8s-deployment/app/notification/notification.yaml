@@ -21,23 +21,23 @@ spec:
         imagePullPolicy: Always
         env:
           - name: RABBITMQ_HOST
-            value: amqp://guest:guest@10.233.35.43:5672/ # sesuain sama ip service headless rabbitmq
+            value: guest:guest@10.233.35.43:5672/ # sesuain sama ip service headless rabbitmq
           - name: QUEUE_UPCOMING_QUIZ
             value: upcoming_quiz
           - name: QUEUE_QUIZ_RESULT
             value: quiz_result
           - name: MAIL_HOST
-            value: smtp.gmail.com
+            value: sandbox.smtp.mailtrap.io
           - name: MAIL_PORT
-            value: '465'
+            value: '2525'
           - name: MAIL_USERNAME
-            value: username
+            value: 1427f83ffe1fef
           - name: MAIL_PASSWORD
-            value: password
+            value: b9d4f47573de85
           - name: MAIL_FROM_ADDRESS
-            value: test@gmail.com
+            value: ququiz.dev@gmail.com
           - name: MAIL_FROM_NAME
-            value: Ququiz
+            value: QuQuiz
         resources:
           limits:
             memory: "300Mi"
