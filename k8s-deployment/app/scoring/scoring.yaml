@@ -20,21 +20,21 @@ spec:
         readinessProbe:
           httpGet:
             path: /healthz
-            port: 3503
+            port: 3504
           initialDelaySeconds: 10
           periodSeconds: 5
           failureThreshold: 5
         livenessProbe:
           httpGet:
             path:  /healthz
-            port: 3503
+            port: 3504
           initialDelaySeconds: 3
           periodSeconds: 4
           failureThreshold: 8
         startupProbe:
           httpGet:
             path: /healthz
-            port: 3503
+            port: 3504
           failureThreshold: 10
           periodSeconds: 10
         env:
