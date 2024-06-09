@@ -4,7 +4,13 @@
 
 ```
 oracle vm harus ufw allow any & ufw enable 
-
+- scale istio ingress:
+ k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule
+- k edit  deployment/istio-ingressgateway -n istio-system
+- limit cpu : 6, memory 3Gi
 
 - load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
 - reset cluster buat config hubble metrics httpv2 (biar bisa nampilin http request metrics)
@@ -24,19 +30,7 @@ kubectl label pods --all-namespaces --all hubble-metrics=default
 
 
 
-k apply -f all.yaml
-k apply -f all.yaml -n argocd
-k apply -f all.yaml -n cilium-monitoring
-
-k apply -f all.yaml -n cilium-monitoring
-
-k apply -f all.yaml -n kube-node-lease
-k apply -f all.yaml -n kube-public
-k apply -f all.yaml -n kube-system
-k apply -f all.yaml -n postgres
-k apply -f all.yaml -n rabbitmq-system
-k apply -f all.yaml -n redis
-
+GAK USAH PAKE all.yaml  BIKIN LATENCYNYA MAKIN TINGGI
 
 k delete -f all.yaml
 k delete -f all.yaml -n argocd
