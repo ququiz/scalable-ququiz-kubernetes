@@ -35,7 +35,7 @@ spec:
           httpGet:
             path: /healthz
             port: 3503
-          failureThreshold: 10
+          failureThreshold: 3
           periodSeconds: 10
         env:
           - name: MONGO_URL
