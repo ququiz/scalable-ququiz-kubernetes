@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-example-mongodb-ququiz-11
+  name: pv-example-mongodb-ququiz-oracle
   labels:
     app: example-mongodb-svc
 spec:
@@ -21,4 +21,4 @@ spec:
             - key: kubernetes.io/hostname
               operator: In
               values:
-                - nodebiznet # replace this with your actual node nam
+                - nodeoracle1 # replace this with your actual node nam

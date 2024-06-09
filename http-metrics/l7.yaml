@@ -1,0 +1,17 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "default-ingress-visibility-for-http-metrics"
+spec:
+  endpointSelector: {}
+  ingress:
+    - fromEntities: 
+      - all
+
+    # - {}gakbisa karena ini deny semuanya
+
+  egress:
+    - toEntities:
+      - all
+    # - {}akbisa karena ini deny semuanya
+

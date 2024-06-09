@@ -6,7 +6,7 @@ kind: Deployment
 metadata:
   name: notification
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: notification
@@ -40,8 +40,8 @@ spec:
             value: Ququiz
         resources:
           limits:
-            memory: "300Mi"
-            cpu: "300m"
+            memory: "800Mi"
+            cpu: 800m"
         ports:
         - containerPort: 3000
           name: rest-api

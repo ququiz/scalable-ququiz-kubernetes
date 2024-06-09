@@ -1,0 +1,4 @@
+ingress:
+  - from:
+    - podSelector: {}
+      namespaceSelector: {}

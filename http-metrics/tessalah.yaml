@@ -1,0 +1,71 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: rule1
+spec:
+  endpointSelector:
+    matchLabels:
+      org: empire
+      class: deathstar
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            org: empire
+      toPorts:
+        - ports:
+            - port: "80"
+              protocol: TCP
+          rules:
+            http:
+              - method: POST
+                path: /v1/request-landing
+    - fromEndpoints:
+        - {}
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "80"
+        - ports:
+            - port: "443"
+    - fromEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: deathstar
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            io.kubernetes.pod.namespace: kube-system
+            k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: UDP
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toEndpoints:
+        - {}
+    - toEndpoints:
+        - matchLabels:
+            org: empire
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "80"
+        - ports:
+            - port: "443"
+    - toCIDRSet:
+        - cidr: 0.0.0.0/0
+      toPorts:
+        - ports:
+            - port: "80"
+        - ports:
+            - port: "443"
+    - toFQDNs:
+        - matchName: cilliu.io
+      toPorts:
+        - ports:
+            - port: "443"
+        - ports:
+            - port: "80"

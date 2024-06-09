@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: pv-example-mongodb-ququiz-12
+  name: pv-example-mongodb-ququiz-biznet
   labels:
     app: example-mongodb-svc
 spec:

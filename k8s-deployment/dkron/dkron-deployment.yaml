@@ -17,6 +17,11 @@ spec:
       containers:
       - name:  dkron
         image: docker.io/dkron/dkron:3.2.7
+        resources:
+        limits:
+          memory: "1500Mi"
+          cpu: "1500m"
+
         volumeMounts:
         - mountPath: /curl
           name: dkroncurl
@@ -25,6 +30,7 @@ spec:
         command: ["/usr/local/bin/dkron", "agent", "--server", "--bootstrap-expect=1"] #, "--data-dir=/dkron.data
         ports:
           - containerPort: 8080
+        
       volumes:
         - name: dirbuatcurl
           emptyDir: {}

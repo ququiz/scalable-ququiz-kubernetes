@@ -9,11 +9,11 @@ spec:
       cpu: 400m
       memory: 400Mi
     limits:
-      cpu: 800m
-      memory: 800Mi
+      cpu: 2500m
+      memory: 2500Mi
   persistence:
     storageClassName: local-storage
-    storage: 5Gi
+    storage: 10Gi
   rabbitmq:
     additionalConfig: |
       default_user=guest

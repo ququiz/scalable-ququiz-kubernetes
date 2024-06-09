@@ -20,9 +20,9 @@ spec:
         volumePermissions:
           enabled: true
         replica:
-          replicaCount: 3
+          replicaCount: 1
           persistence:
-            size: 2Gi
+            size: 5Gi
         auth:
           enabled: true
           password: lintang
@@ -30,9 +30,14 @@ spec:
           livenessProbe:
             enabled: true
           persistence:
-            size: 2Gi
+            size: 5Gi
         global:
           storageClass: local-storage
+        resources: 
+          limits:
+            cpu: 2
+            memory: 2048Mi
+          
   destination:
     server: https://kubernetes.default.svc
     namespace: redis

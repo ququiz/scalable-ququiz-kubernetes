@@ -6,11 +6,52 @@
 - load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
 - reset cluster buat config hubble metrics httpv2 (biar bisa nampilin http request metrics)
 - gak usah pake linkerd & istio karena udah coba install  (& pake cilium) tetep gakbisa
-
+https://play.instruqt.com/embed/isovalent/tracks/cilium-envoy-l7-proxy/challenges/observability/assignment
 
 https://github.com/cilium/cilium/issues/20130
 https://isovalent.com/videos/back-to-basics-l7-flow-visibility/
-- biar ada metrics http per pod: kubectl label pods --all-namespaces  --all hubble-metrics=default
+- biar ada metrics http per pod: 
+kubectl label pods -n default --all hubble-metrics=default
+kubectl label pods -n ingress-nginx --all hubble-metrics=default
+kubectl label pods -n postgres --all hubble-metrics=default
+kubectl label pods -n redis --all hubble-metrics=default
+kubectl label pods -n rabbitmq-system --all hubble-metrics=default
+kubectl label pods --all-namespaces --all hubble-metrics=default
+
+
+
+
+k apply -f all.yaml
+k apply -f all.yaml -n argocd
+k apply -f all.yaml -n cilium-monitoring
+
+k apply -f all.yaml -n cilium-monitoring
+
+k apply -f all.yaml -n kube-node-lease
+k apply -f all.yaml -n kube-public
+k apply -f all.yaml -n kube-system
+k apply -f all.yaml -n postgres
+k apply -f all.yaml -n rabbitmq-system
+k apply -f all.yaml -n redis
+
+
+k delete -f all.yaml
+k delete -f all.yaml -n argocd
+k delete -f all.yaml -n cilium-monitoring
+
+k delete -f all.yaml -n cilium-monitoring
+
+k delete -f all.yaml -n kube-node-lease
+k delete -f all.yaml -n kube-public
+k delete -f all.yaml -n kube-system
+k delete -f all.yaml -n postgres
+k delete -f all.yaml -n rabbitmq-system
+k delete -f all.yaml -n redis
+
+- emang bawaannya cilium has no deployed resources
+- kalau mau ganti config harus reset & ganti config
+
+
 
 
 cilium hubble port-forward &
@@ -56,6 +97,13 @@ jangan run rabbitmq lewat argocd, bikin gak bisa connect
 k apply -f aja langsung di vpsnya
 
 https://github.com/cilium/cilium/blob/main/examples/kubernetes/addons/prometheus/README.md
+
+
+rm -rf $HOME/.kube || true    
+mkdir -p $HOME/.kube   
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config   
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
 ```
 
 ### troubleshooting
@@ -182,8 +230,6 @@ sudo chmod 777 /data/volumes/redis3
 
 NOTES: node sesuain nama k8s node yang mau dideploy redis/dbnya
 
-
-
 - create pv buat redis
 cat << EOF | kubectl apply -f -
 apiVersion: v1
@@ -192,7 +238,7 @@ metadata:
   name: pv-redis
 spec:
   capacity:
-    storage: 2Gi
+    storage: 5Gi
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -206,85 +252,9 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - nodebiznet
+          - nodeoracle1
 EOF
 
-
-
-cat << EOF | kubectl apply -f -
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-redis1
-spec:
-  capacity:
-    storage: 2Gi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
-  local:
-    path: /data/volumes/redis1
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - nodebiznet
-EOF
-
-
-cat << EOF | kubectl apply -f -
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-redis2
-spec:
-  capacity:
-    storage: 2Gi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
-  local:
-    path: /data/volumes/redis2
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - nodebiznet
-EOF
-
-
-
-cat << EOF | kubectl apply -f -
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-redis3
-spec:
-  capacity:
-    storage: 2Gi
-  accessModes:
-  - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
-  local:
-    path: /data/volumes/redis3
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - nodebiznet
-EOF
 
 
 
@@ -307,8 +277,8 @@ sudo mkdir /data/volumes/pv-mongodb-st
 sudo mkdir /data/volumes/pv-mongodb-st2
 sudo mkdir /data/volumes/pv-mongodb-st3
 
-sudo chmod 777  /data/volumes/pv-mongodb-st
-sudo chmod 777  /data/volumes/pv-mongodb-st2
+sudo chmod 777  /data/volumes/pv-mongodb-st (oracle)
+sudo chmod 777  /data/volumes/pv-mongodb-st2 (biznet)
 sudo chmod 777  /data/volumes/pv-mongodb-st3
 
 
@@ -326,7 +296,8 @@ https://irshitmukherjee55.hashnode.dev/a-tale-of-deploying-mongodb-in-k8s-statef
 k apply -f configmap.yaml
 
  kubectl exec -it mongo-0 -- mongo
-  rs.initiate({
+
+rs.initiate({
         "_id" : "rs0",
         "members" : [
                 {
@@ -359,7 +330,7 @@ metadata:
   name: pv-rabbitmq
 spec:
   capacity:
-    storage: 5Gi
+    storage: 10Gi
   accessModes:
   - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
@@ -373,7 +344,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - nodebiznet
+          - nodegcp1
 EOF
 
 

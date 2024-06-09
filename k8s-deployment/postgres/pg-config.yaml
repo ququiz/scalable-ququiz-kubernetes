@@ -53,6 +53,12 @@ spec:
       huge_pages: 'off'
       min_wal_size: '1GB'
       max_wal_size: '4GB'
+  resources:
+    requests:
+      memory: "3048Mi"
+      cpu: 2
+    limits:
+      memory: 
 
     pg_hba:
     - host all all 0.0.0.0/0 scram-sha-256
