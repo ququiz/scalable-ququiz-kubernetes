@@ -16,7 +16,7 @@ spec:
       passCredentials: false
       values: |
         sentinel:
-          enabled: true
+          enabled: false
         volumePermissions:
           enabled: true
         replica:
@@ -37,6 +37,7 @@ spec:
           limits:
             cpu: 2
             memory: 3048Mi
+        architecture: standalone
           
   destination:
     server: https://kubernetes.default.svc
