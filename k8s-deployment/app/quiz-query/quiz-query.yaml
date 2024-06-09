@@ -17,6 +17,26 @@ spec:
       - name:  quiz-query
         image: docker.io/lintangbirdas/quiz-query-service:18
         imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3503
+          initialDelaySeconds: 3
+          periodSeconds: 3
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path:  /healthz
+            port: 3503
+          initialDelaySeconds: 3
+          periodSeconds: 4
+          failureThreshold: 8
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 3503
+          failureThreshold: 10
+          periodSeconds: 10
         env:
           - name: MONGO_URL
             value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0&readPreference=secondaryPreferred #?replicaSet=ququiz-db-mongodb  #&readPreference=secondaryPreferred
@@ -35,10 +55,6 @@ spec:
           - name: AUTH_GRPC_URL
             value: auth-service:4000
       
-          # - name: DKRON_URL
-          #   value: http://dkron-svc:8080/v1/jobs
-          # - name: TRANSCODER_WORKER_URL
-          #   value: lintang-transcoder-worker-service.default.svc.cluster.local:9995
         resources:
           limits:
             memory: "2000Mi"

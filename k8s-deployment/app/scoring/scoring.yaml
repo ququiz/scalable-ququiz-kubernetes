@@ -17,15 +17,33 @@ spec:
       - name:  scoring
         image: docker.io/lintangbirdas/scoring-service:6
         imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3503
+          initialDelaySeconds: 3
+          periodSeconds: 3
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path:  /healthz
+            port: 3503
+          initialDelaySeconds: 3
+          periodSeconds: 4
+          failureThreshold: 8
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 3503
+          failureThreshold: 10
+          periodSeconds: 10
         env:
           - name: MONGO_URL
-            value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0
-            #value: mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false&readPreference=secondaryPreferred
+            value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0&readPreference=secondaryPreferred
           - name: RABBITMQ_ADDRESS
             value: amqp://guest:guest@10.233.59.55:5672/ # sesuain sama ip service headless rabbitmq  # ganti username sama passwordnya dg username password rabbit mq kamu , cara nampilinnya ada di step 2c-2f  #rabbitmq.default.svc.cluster.local gakbisa 
           - name: MONGO_WRITE_URL
             value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0
-            # value:  mongodb://admin:lintang@ququiz-db-mongodb-0.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-1.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017,ququiz-db-mongodb-2.ququiz-db-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=ququiz-db-mongodb&ssl=false
           
           - name: REDIS_ADDR
             value: redis-headless.redis:6379
@@ -33,10 +51,11 @@ spec:
             value: lintang
           - name: APP_ENV
             value: k8s
-            # - name: DKRON_URL
-          #   value: http://dkron-svc:8080/v1/jobs
-          # - name: TRANSCODER_WORKER_URL
-          #   value: lintang-transcoder-worker-service.default.svc.cluster.local:9995
+          - name: QUIZ_QUERY_GRPC_URL
+            value: quiz-query-service:6005
+          - name: AUTH_GRPC_CLIENT
+            value: auth-service:4000
+
         resources:
           limits:
             memory: "300Mi"
