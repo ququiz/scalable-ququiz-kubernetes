@@ -17,8 +17,27 @@ spec:
       - name:  quiz-command
         image: docker.io/lintangbirdas/quiz-command-service-adam:28
         imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 5
+        livenessProbe:
+          httpGet:
+            path:  /healthz
+            port: 3000
+          initialDelaySeconds: 3
+          periodSeconds: 4
+          failureThreshold: 8
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          failureThreshold: 10
+          periodSeconds: 10
         env:
-        
           - name: MONGO_URL
             value: mongodb://mongo-0.mongo,mongo-1.mongo,mongo-2.mongo:27017/?replicaSet=rs0&readPreference=secondaryPreferred
           - name: DKRON_API_URL

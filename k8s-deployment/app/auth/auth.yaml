@@ -19,6 +19,26 @@ spec:
       - name:  auth
         image: docker.io/lintangbirdas/ququiz-auth-adam:7
         imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          failureThreshold: 5
+        livenessProbe:
+          httpGet:
+            path:  /healthz
+            port: 3000
+          initialDelaySeconds: 3
+          periodSeconds: 4
+          failureThreshold: 8
+        startupProbe:
+          httpGet:
+            path: /healthz
+            port: 3000
+          failureThreshold: 10
+          periodSeconds: 10
         env:
           - name: POSTGRES_USER
             value: lintang
