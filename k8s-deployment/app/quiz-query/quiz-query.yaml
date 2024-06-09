@@ -32,6 +32,8 @@ spec:
             value: k8s
           - name: MONGO_DB
             value: test
+          - name: AUTH_GRPC_URL
+            value: auth-service:4000
       
           # - name: DKRON_URL
           #   value: http://dkron-svc:8080/v1/jobs

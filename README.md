@@ -3,6 +3,9 @@
 ## TODO
 
 ```
+oracle vm harus ufw allow any & ufw enable 
+
+
 - load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
 - reset cluster buat config hubble metrics httpv2 (biar bisa nampilin http request metrics)
 - gak usah pake linkerd & istio karena udah coba install  (& pake cilium) tetep gakbisa
@@ -74,6 +77,23 @@ emang dari awal: Error: Unable to enable Hubble: release: not found
 
 kubectl -n kube-system get pods -l k8s-app=cilium
 kubectl -n kube-system exec cilium-69rfw -- cilium endpoint list
+
+
+
+
+### nginx ingress di node oracle
+k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule
+
+k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule-
+k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule-
+k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule-
+k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule-
+
+
+
 ```
 
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/baremetal/deploy.yaml --kubeconfig=/home/lintang/.kube/config
