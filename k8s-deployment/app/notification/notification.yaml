@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name:  notification
-        image: docker.io/lintangbirdas/ququiz-notification-service-bagas:6
+        image: docker.io/lintangbirdas/ququiz-notification-service-bagas:8
         imagePullPolicy: Always
         env:
           - name: RABBITMQ_HOST
