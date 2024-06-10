@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app:  scoring
+        istio-injection: enabled
     spec:
       containers:
       - name:  scoring

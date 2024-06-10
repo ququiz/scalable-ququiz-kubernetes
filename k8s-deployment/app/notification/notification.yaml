@@ -14,6 +14,7 @@ spec:
     metadata:
       labels:
         app:  notification
+        istio-injection: enabled
     spec:
       containers:
       - name:  notification

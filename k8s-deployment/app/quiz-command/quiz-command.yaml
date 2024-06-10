@@ -12,6 +12,7 @@ spec:
     metadata:
       labels:
         app:  quiz-command
+        istio-injection: enabled
     spec:
       containers:
       - name:  quiz-command
