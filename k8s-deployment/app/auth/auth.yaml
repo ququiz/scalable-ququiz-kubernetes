@@ -14,7 +14,7 @@ spec:
     metadata:
       labels:
         app:  auth
-        sidecar.istio.io/inject: "true"
+        
     spec:
       containers:
       - name:  auth

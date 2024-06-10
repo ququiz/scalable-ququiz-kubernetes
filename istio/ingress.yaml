@@ -67,15 +67,5 @@ spec:
         host: scoring-service
         port:
           number: 3504
-  - match: 
-    - uri: 
-        prefix: /nginx
-    rewrite:
-      uri: /
-    route:
-    - destination:
-        host: nginx-project
-        port:
-          number: 80
-      
+  
 

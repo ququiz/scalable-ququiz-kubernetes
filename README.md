@@ -30,7 +30,7 @@ kubectl label pods --all-namespaces --all hubble-metrics=default
 
 
 
-GAK USAH PAKE all.yaml  BIKIN LATENCYNYA MAKIN TINGGI
+GAK USAH PAKE all.yaml  BIKIN LATENCYNYA MAKIN TINGGI, tapi kalo gak pake ini gak muncul apa apa di kiali
 
 k delete -f all.yaml
 k delete -f all.yaml -n argocd
@@ -44,6 +44,22 @@ k delete -f all.yaml -n kube-system
 k delete -f all.yaml -n postgres
 k delete -f all.yaml -n rabbitmq-system
 k delete -f all.yaml -n redis
+
+
+
+k apply -f all.yaml
+k apply -f all.yaml -n argocd
+k apply -f all.yaml -n cilium-monitoring
+
+k apply -f all.yaml -n cilium-monitoring
+
+k apply -f all.yaml -n kube-node-lease
+k apply -f all.yaml -n kube-public
+k apply -f all.yaml -n kube-system
+k apply -f all.yaml -n postgres
+k apply -f all.yaml -n rabbitmq-system
+k apply -f all.yaml -n redis
+
 
 - emang bawaannya cilium has no deployed resources
 - kalau mau ganti config harus reset & ganti config
