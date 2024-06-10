@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name:  quiz-command
-        image: docker.io/lintangbirdas/quiz-command-service-adam:28
+        image: docker.io/lintangbirdas/quiz-command-service-adam:29
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
