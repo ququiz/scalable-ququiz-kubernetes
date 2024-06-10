@@ -12,6 +12,15 @@ spec:
       labels:
         app:  dkron
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: dkron-node
+                operator: In
+                values:
+                - true
       hostNetwork: true # harus ada biar bisa install curl
       dnsPolicy: "ClusterFirstWithHostNet" #"Default" Default gak bisa request ke transcoder-worker-servicce..## biar bisa install curl
       containers:

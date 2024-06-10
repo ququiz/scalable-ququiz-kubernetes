@@ -403,6 +403,9 @@ connURL= amqp://default_user_Z4KRpZEzc-7wictHAsl:0vpV52fDOzbx2UtHFMRDotjw27pvzB1
 
 
 ---- dkron ----
+
+kubectl label nodes <your-node-name> dkron-node=true
+
 4a. kubectl  create configmap dkroncurl  --from-file ./dkron_curl.sh
 4b. apply dkron-app di argocd (argocd aaja)
 4c. kubectl get pod
