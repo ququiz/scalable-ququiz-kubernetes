@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name:  scoring
-        image: docker.io/lintangbirdas/scoring-service:27
+        image: docker.io/lintangbirdas/scoring-service:29
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
