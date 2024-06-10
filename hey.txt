@@ -5,3 +5,21 @@
 hey -n 1000 -c 200 -H 'Authorization: Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxpbnRhbmciLCJpYXQiOjE3MTc5ODAzMDUsImV4cCI6MTcxNzk4MTIwNSwic3ViIjoiNTFmN2ZmNzYtMmYzNi00ZGE5LWEwNDktOTJlOWRhNmI3Y2JiIn0.AT-dUx444MOOJZSf9RtYLhozWD1AOncf7dXWk1mpkdHy3Od8mBjZnfnmGutbFFZpz8F8e8F-MQwJvW6u_MlFCnHDABqXcCAXu4MkHUj65Un9DC9fG3s-Sn_E83uRTiYs3vc5VSu374ygYEKoaZOaW_G7uy9wFCvN_IyGpZ43VUChpBYQ'  'http://213.35.108.137:31707/quiz-query/api/v1/quiz/history' 
 
 
+
+
+
+hey -n 3000  -c 500 -H 'Authorization: Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxpbnRhbmciLCJpYXQiOjE3MTc5ODQ2MDIsImV4cCI6MTcxNzk4NTUwMiwic3ViIjoiNTFmN2ZmNzYtMmYzNi00ZGE5LWEwNDktOTJlOWRhNmI3Y2JiIn0.AfzgZphpso2Y1wBqqt7CA83ElCX_ifG0EpEY7aIwV6R6GpWV8UQZuxE8VWGTWouuAds_-5BCfvvI_lZX5rChVIkYAKctjsrNDbhq9Q_4s7XSBN8oymSvfDuQj-x51DD7kcch1-uKE3zsQLh4d-HTgVWpypEqjkSzq9_O8nt4pW4XXuuU' 'http://213.35.108.137:31707/quiz-query/api/v1/quiz' 
+
+
+hey -H 'Content-Type: application/json' \
+  'http://213.35.108.137:31707/auth/authentications' \
+--data '{
+    "username": "lintang",
+    "password": "Lintang123("
+}'
+
+
+
+hey -n 3000  -c 500   'http://213.35.108.137:31707/auth/users/51f7ff76-2f36-4da9-a049-92e9da6b7cbb'
+
+
