@@ -16,7 +16,7 @@ spec:
       dnsPolicy: "ClusterFirstWithHostNet" #"Default" Default gak bisa request ke transcoder-worker-servicce..## biar bisa install curl
       containers:
       - name:  dkron
-        image: dkron/dkron:4.0.0-beta5 #docker.io/dkron/dkron:3.2.7 yg versi in job yang dibuat quiz command service kosong
+        image: docker.io/dkron/dkron:3.2.7 # dkron/dkron:4.0.0-beta5 ini ada masalah time job naya gak ke start #docker.io/dkron/dkron:3.2.7 yg versi in job yang dibuat quiz command service kosong
         resources:
         limits:
           memory: "1500Mi"
