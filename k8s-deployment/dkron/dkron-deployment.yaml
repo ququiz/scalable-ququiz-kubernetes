@@ -21,8 +21,7 @@ spec:
         limits:
           memory: "1500Mi"
           cpu: "1500m"
-        env:
-          - name: TZ
+        
         volumeMounts:
         - mountPath: /curl
           name: dkroncurl
