@@ -21,22 +21,29 @@ spec:
         limits:
           memory: "1500Mi"
           cpu: "1500m"
-
+        env:
+          - name: TZ
         volumeMounts:
         - mountPath: /curl
           name: dkroncurl
         - name: dirbuatcurl
           mountPath: /bisa
+        - name: tz-config
+          mountPath: /etc/localtime
+          readOnly: true
         command: ["/usr/local/bin/dkron", "agent", "--server", "--bootstrap-expect=1"] #, "--data-dir=/dkron.data
         ports:
           - containerPort: 8080
-        
       volumes:
         - name: dirbuatcurl
           emptyDir: {}
         - name: dkroncurl
           configMap:
             name: dkroncurl
+        - name: tz-config
+          hostPath:
+            path: /etc/localtime
+            type: File
    
 
 ---

@@ -3,8 +3,10 @@
 ## TODO
 
 ```
+coba ntar exec ke dkron terus bikin program golang buat cek ini jam berapa
 oracle vm harus ufw allow any & ufw enable 
 - scale istio ingress:
+
  k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule
 k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule
 k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule
