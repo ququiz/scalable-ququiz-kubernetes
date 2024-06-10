@@ -4,7 +4,7 @@
 
 ```
 coba ntar exec ke dkron terus bikin program golang buat cek ini jam berapa
-oracle vm harus ufw allow any & ufw enable 
+oracle vm harus ufw allow any & ufw enable
 - scale istio ingress:
 
  k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule
@@ -21,7 +21,7 @@ https://play.instruqt.com/embed/isovalent/tracks/cilium-envoy-l7-proxy/challenge
 
 https://github.com/cilium/cilium/issues/20130
 https://isovalent.com/videos/back-to-basics-l7-flow-visibility/
-- biar ada metrics http per pod: 
+- biar ada metrics http per pod:
 kubectl label pods -n default --all hubble-metrics=default
 kubectl label pods -n ingress-nginx --all hubble-metrics=default
 kubectl label pods -n postgres --all hubble-metrics=default
@@ -122,6 +122,27 @@ https://github.com/cilium/cilium/issues/13738 apply l7 ke all endpoint ingress k
 
 ```
 
+### Daftar queue RabbitMQ
+
+```
+
+- delete-cache-queue
+routingKey: delete-cache
+exchange: scoring-quiz-query
+
+- quiz.email.queue
+
+
+- scoringQuizQueryQueue
+routingKey: correct-answer
+exchange: scoring-quiz-query
+
+- userAnswerQueue
+routingKey: user-answer
+EXCHANGE_NAME: quiz-command-quiz-query
+
+```
+
 ## Notes
 
 ```
@@ -131,9 +152,9 @@ k apply -f aja langsung di vpsnya
 https://github.com/cilium/cilium/blob/main/examples/kubernetes/addons/prometheus/README.md
 
 
-rm -rf $HOME/.kube || true    
-mkdir -p $HOME/.kube   
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config   
+rm -rf $HOME/.kube || true
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 ```
@@ -410,7 +431,8 @@ kubectl label nodes <your-node-name> dkron-node=true
 4b. apply dkron-app di argocd (argocd aaja)
 4c. kubectl get pod
 kubectl exec -it <nama_pod_dkron>  -- bash -c "cp curl/* bisa/ && chmod 777 bisa/dkron_curl.sh && bisa/dkron_curl.sh"
-4d. 
+
+4d.
 
 4e. connURL = http://dkron-svc:8080/v1/jobs
 4f. copy connURl dkron ke environment  k8s-deployment/app/*  (DKRON_URL)
