@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name:  quiz-query
-        image: docker.io/lintangbirdas/quiz-query-service:29
+        image: docker.io/lintangbirdas/quiz-query-service:30
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
