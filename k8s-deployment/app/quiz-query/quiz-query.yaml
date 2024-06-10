@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app:  quiz-query
-        sidecar.istio.io/inject: enabled
+        sidecar.istio.io/inject: "true"
     spec:
       containers:
       - name:  quiz-query
