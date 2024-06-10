@@ -23,3 +23,5 @@ hey -H 'Content-Type: application/json' \
 hey -n 3000  -c 500   'http://213.35.108.137:31707/auth/users/51f7ff76-2f36-4da9-a049-92e9da6b7cbb'
 
 
+
+hey -n 3000 -c 500  -H 'Authorization: Bearer eyJhbGciOiJFUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImxpbnRhbmdicyIsImlhdCI6MTcxODAzMzg3OSwiZXhwIjoxNzE4MDM0Nzc5LCJzdWIiOiI2ZDdjMTgwYi1lZDBkLTQ2YzYtYTdkMS00ZTFmMTczYmVmOTMifQ.AYsitYIpfMspZ4qfGKlYBd2aqCep2lf6cKMB3rKjDC4iniYB-pT0u3G5ukAUfWiRWr7Fi0KntofJMVYGqw0UhVSQAGiNpCgunHlz-1OROpqxS5VHLCPPj7uTBmC2wZ7F11FGJHNmM10EvJ7ysO_x1WCeAdzB6rmYWFk-DJCrHmLxkqT8' 'http://213.35.108.137:31707/quiz-query/api/v1/quiz' 

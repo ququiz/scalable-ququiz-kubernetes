@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name:  scoring
-        image: docker.io/lintangbirdas/scoring-service:25
+        image: docker.io/lintangbirdas/scoring-service:27
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
@@ -59,8 +59,8 @@ spec:
 
         resources:
           limits:
-            memory: "300Mi"
-            cpu: "300m"
+            memory: "2000Mi"
+            cpu: "1500m"
         ports:
         - containerPort: 3504
           name: rest-api

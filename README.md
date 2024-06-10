@@ -1,5 +1,11 @@
 # argocd-k8s-ququiz
 
+### note presentasi
+````
+- scoring service pod di delete semua dulu karena belum connect ke query service
+- 
+````
+
 ## TODO
 
 ```
