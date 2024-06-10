@@ -14,7 +14,7 @@ spec:
     metadata:
       labels:
         app:  notification
-        istio-injection: enabled
+        sidecar.istio.io/inject: enabled
     spec:
       containers:
       - name:  notification

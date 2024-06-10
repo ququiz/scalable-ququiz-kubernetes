@@ -12,7 +12,7 @@ spec:
     metadata:
       labels:
         app:  scoring
-        istio-injection: enabled
+        sidecar.istio.io/inject: enabled
     spec:
       containers:
       - name:  scoring
