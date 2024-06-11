@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name:  quiz-query
-        image: docker.io/lintangbirdas/quiz-query-service:42
+        image: docker.io/lintangbirdas/quiz-query-service:45
         imagePullPolicy: Always
         readinessProbe:
           httpGet:
@@ -56,7 +56,7 @@ spec:
           - name: AUTH_GRPC_URL
             value: auth-service:4000
           - name: URL_GRPC
-            value: '6005'
+            value: '0.0.0.0:6005'
       
         resources:
           limits:
