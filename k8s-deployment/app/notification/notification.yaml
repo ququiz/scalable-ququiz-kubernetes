@@ -1,5 +1,3 @@
-
-
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -42,7 +40,7 @@ spec:
         resources:
           limits:
             memory: "800Mi"
-            cpu: 800m"
+            cpu: "800m"
         ports:
         - containerPort: 3000
           name: rest-api
