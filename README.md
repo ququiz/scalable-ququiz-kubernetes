@@ -3,8 +3,30 @@
 ### note presentasi
 ````
 - scoring service pod di delete semua dulu karena belum connect ke query service
-- 
+- istioctl dashboard kiali
 ````
+
+### Daftar queue RabbitMQ (wajib tambahin di web rabbitmq)
+
+```
+
+- delete-cache-queue
+routingKey: delete-cache
+exchange: scoring-quiz-query
+
+- quiz.email.queue
+
+
+- scoringQuizQueryQueue
+routingKey: correct-answer
+exchange: scoring-quiz-query
+
+- userAnswerQueue
+routingKey: user-answer
+EXCHANGE_NAME: quiz-command-quiz-query
+
+```
+
 
 ## TODO
 
