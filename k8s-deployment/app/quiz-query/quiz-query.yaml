@@ -55,6 +55,8 @@ spec:
             value: test
           - name: AUTH_GRPC_URL
             value: auth-service:4000
+          - name: URL_GRPC
+            value: '6005'
       
         resources:
           limits:
