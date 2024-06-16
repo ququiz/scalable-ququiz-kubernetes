@@ -7,7 +7,6 @@ QuQuiz adalah aplikasi kuis online scalable yang melayani pembuatan kuis yang ak
 - [Anggota Kelompok](#Anggota-Kelompok)
 - [Deployment Scenario](#Deployment-Scenario)
 - [Code Repository](#Code-Repository)
-- [Metodologi](#metodologi)
 - [Quick Start](#QuickStart)
 - [Testing](#Testing)
 - [Dokumentasi](#Dokumentasi)
