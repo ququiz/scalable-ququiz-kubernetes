@@ -43,6 +43,8 @@ QuQuiz adalah aplikasi kuis online scalable yang melayani pembuatan kuis yang ak
 4. Quiz Query Service: https://github.com/ququiz/quiz-query-service.git
 5. Scoring Service: https://github.com/ququiz/scoring-service.git
 6. Notification Service: https://github.com/ququiz/ququiz-notification.git
+7. docker compose & postman collection: https://github.com/ququiz/ququiz
+
 
 
 # QuickStart
