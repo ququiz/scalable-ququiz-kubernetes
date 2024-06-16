@@ -1,288 +1,64 @@
-# argocd-k8s-ququiz
+# Scalable Ququiz
+QuQuiz adalah aplikasi kuis online scalable yang melayani pembuatan kuis yang akan tersedia bagi seluruh pengguna. QuQuiz menyediakan fitur scoring real-time sekaligus dapat menampilkan leaderboard real-time. Setiap pengguna dapat melakukan manajemen kuis lengkap dengan scheduling akan kapan quiz akan dimulai dan ditutup. Saat ini, QuQuiz masih terbatas dengan hanya menyediakan pembuatan soal pilihan ganda.
 
-### note presentasi
-````
-- scoring service pod di delete semua dulu karena belum connect ke query service
-- istioctl dashboard kiali
-````
 
-### Daftar queue RabbitMQ (wajib tambahin di web rabbitmq)
+# List
+- [Architecture](#Architecture)
+- [Anggota Kelompok](#Anggota-Kelompok)
+- [Deployment Scenario](#Deployment-Scenario)
+- [Code Repository](#Code-Repository)
+- [Metodologi](#metodologi)
+- [Quick Start](#QuickStart)
+- [Testing](#Testing)
+- [Dokumentasi](#Dokumentasi)
 
+
+# Architecture
+![microservices kubernetes](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718547171/ququiz_scalable/ququiz_3_prrgnp.png)
+
+
+
+# Flow architecture
+![figma flow](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718548611/ququiz_scalable/Architecture_V2_1_ugkrwt.png)
+
+
+
+# Anggota-Kelompok
+```
+1. Andreas Notokusumo (Quiz Command Service)
+2. Alexander Adam Mukhaer (Auth Service & Quiz Command Service)
+3. David Lois (Frontend Ququiz)
+4. Azhar Bagaskara (Notification Service)
+5. Lintang Birda Saputra (Quiz Query Service, Scoring Service, Kubernetes Deployment)
 ```
 
-- delete-cache-queue
-routingKey: delete-cache
-exchange: scoring-quiz-query
+# Deployment-Scenario
+1. Multiple Kubernetes Node (beberapa vm cloud, vps, dan laptop Lintang). Cluster kubernetes dibuat menggunakan Kubespray dan Wireguard VPN. Total Sumber daya komputasi: 48 Virtual Core CPU & 80 GB RAM.
+![pods](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718548976/ququiz_scalable/pods_skc5ii.png)
 
-- quiz.email.queue
 
+# Code-Repository
+1. Frontend: https://github.com/ququiz/ququiz-fe.git
+2. Auth Service: https://github.com/ququiz/auth-service.git
+3. Quiz Command Service: https://github.com/ququiz/quiz-service.git
+4. Quiz Query Service: https://github.com/ququiz/quiz-query-service.git
+5. Scoring Service: https://github.com/ququiz/scoring-service.git
+6. Notification Service: https://github.com/ququiz/ququiz-notification.git
 
-- scoringQuizQueryQueue
-routingKey: correct-answer
-exchange: scoring-quiz-query
 
-- userAnswerQueue
-routingKey: user-answer
-EXCHANGE_NAME: quiz-command-quiz-query
+# QuickStart
+### Prequisite
+1. Kubernetes cluster dengan total resource 48 Virtual Core CPU & 80 GB RAM. Kalau lebih kecil bisa sesuaikan jumlah replica & resource limit di setiap manifest .
 
-```
-
-
-## TODO
-
-```
-coba ntar exec ke dkron terus bikin program golang buat cek ini jam berapa
-oracle vm harus ufw allow any & ufw enable
-- scale istio ingress:
-
- k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule
-k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule
-k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule
-k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule
-- k edit  deployment/istio-ingressgateway -n istio-system
-- limit cpu : 6, memory 3Gi
-
-- load test && apply rekomen cpu & mem setiap pod/db/mq pake goldilocks
-- reset cluster buat config hubble metrics httpv2 (biar bisa nampilin http request metrics)
-- gak usah pake linkerd & istio karena udah coba install  (& pake cilium) tetep gakbisa
-https://play.instruqt.com/embed/isovalent/tracks/cilium-envoy-l7-proxy/challenges/observability/assignment
-
-https://github.com/cilium/cilium/issues/20130
-https://isovalent.com/videos/back-to-basics-l7-flow-visibility/
-- biar ada metrics http per pod:
-kubectl label pods -n default --all hubble-metrics=default
-kubectl label pods -n ingress-nginx --all hubble-metrics=default
-kubectl label pods -n postgres --all hubble-metrics=default
-kubectl label pods -n redis --all hubble-metrics=default
-kubectl label pods -n rabbitmq-system --all hubble-metrics=default
-kubectl label pods --all-namespaces --all hubble-metrics=default
-
-
-
-
-GAK USAH PAKE all.yaml  BIKIN LATENCYNYA MAKIN TINGGI, tapi kalo gak pake ini gak muncul apa apa di kiali
-
-k delete -f all.yaml
-k delete -f all.yaml -n argocd
-k delete -f all.yaml -n cilium-monitoring
-
-k delete -f all.yaml -n cilium-monitoring
-
-k delete -f all.yaml -n kube-node-lease
-k delete -f all.yaml -n kube-public
-k delete -f all.yaml -n kube-system
-k delete -f all.yaml -n postgres
-k delete -f all.yaml -n rabbitmq-system
-k delete -f all.yaml -n redis
-
-
-
-k apply -f all.yaml
-k apply -f all.yaml -n argocd
-k apply -f all.yaml -n cilium-monitoring
-
-k apply -f all.yaml -n cilium-monitoring
-
-k apply -f all.yaml -n kube-node-lease
-k apply -f all.yaml -n kube-public
-k apply -f all.yaml -n kube-system
-k apply -f all.yaml -n postgres
-k apply -f all.yaml -n rabbitmq-system
-k apply -f all.yaml -n redis
-
-
-- emang bawaannya cilium has no deployed resources
-- kalau mau ganti config harus reset & ganti config
-
-
-
-
-cilium hubble port-forward &
-hubble config set tls true
-hubble config set tls-allow-insecure true
-
-cat ~/.config/hubble/config.yaml
-tls: true
-tls-allow-insecure: true
-
-hubble status
-Healthcheck (via localhost:4245): Ok
-Current/Max Flows: 24,570/24,570 (100.00%)
-Flows/s: 51.15
-Connected Nodes: 6/6
-
-emang dari awal: Error: Unable to enable Hubble: release: not found
-
-
-
-kubectl -n kube-system get pods -l k8s-app=cilium
-kubectl -n kube-system exec cilium-69rfw -- cilium endpoint list
-
-
-
-
-### nginx ingress di node oracle
-k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule
-k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule
-k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule
-k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule
-
-k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule-
-k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule-
-k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule-
-k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule-
-
-
-
-```
-
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/baremetal/deploy.yaml --kubeconfig=/home/lintang/.kube/config
-
-cilium
-jangan pernah install ulang cilium cni, bakal errror networkingnya cluster nanti
-
-jangan pernah hapus cni di /etc/cni.d tau di /opt/bin/cni,bikin error clusternya
-
-https://github.com/cilium/hubble/issues/1356
-https://github.com/cilium/cilium/issues/13738 apply l7 ke all endpoint ingress ke semua pod di semua namespaces..
-
-```
-
-```
-
-### Daftar queue RabbitMQ
-
-```
-
-- delete-cache-queue
-routingKey: delete-cache
-exchange: scoring-quiz-query
-
-- quiz.email.queue
-
-
-- scoringQuizQueryQueue
-routingKey: correct-answer
-exchange: scoring-quiz-query
-
-- userAnswerQueue
-routingKey: user-answer
-EXCHANGE_NAME: quiz-command-quiz-query
-
-```
-
-## Notes
-
-```
-jangan run rabbitmq lewat argocd, bikin gak bisa connect
-k apply -f aja langsung di vpsnya
-
-https://github.com/cilium/cilium/blob/main/examples/kubernetes/addons/prometheus/README.md
-
-
-rm -rf $HOME/.kube || true
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-```
-
-### troubleshooting
-
-```
-https://stackoverflow.com/questions/46852169/no-primary-detected-for-set-mongo-shell
-
-argocd repo add  git@github.com:ququiz/argocd-k8s-ququiz.git  --ssh-private-key-path ./id_rsa
-
-pull image lama : sudo systemctl restart kubelet
-coredns crashloopbackoff:
-kubectl edit configmap coredns -n kube-system
-isinya:
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: coredns
-  namespace: kube-system
-data:
-  Corefile: |
-    .:53 {
-        errors
-        health
-        kubernetes cluster.local in-addr.arpa ip6.arpa {
-            pods insecure
-            fallthrough in-addr.arpa ip6.arpa
-        }
-        prometheus :9153
-        forward . 8.8.8.8 8.8.4.4
-        cache 30
-        loop
-        reload
-        loadbalance
-    }
-
-
-    yg line ini diganti :  forward . /etc/resolv.conf {
-          prefer_udp
-          max_concurrent 1000
-        }
-delete coredns yg crashloopbackoff
-
-
-```
-
-### serice mesh? gak usah pake cilium & hubble aja
-
-```
-gak usah pake service mesh, udah coba install linkerd & istio malah error pod ingress istio/pod linkerdnya
-
-
-cilium hubble ui --open-browser=false
-dari laptopku: ssh -L 8000:localhost:12000 lintang@10.70.70.1
-
-
-```
-
-### Linkerd
-
-```
-https://linkerd.io/2.15/getting-started/ (gakbisa)
-
-linkerd install --crds | kubectl apply -f - --kubeconfig=/home/lintang/.kube/config
-
-https://linkerd.io/2.15/features/cni/#using-the-cli, sama aja gabisa
-
-https://github.com/linkerd/linkerd2/issues/7493
-
-
-linkerd install-cni | kubectl apply -f -
-linkerd install --crds | kubectl apply -f -
-linkerd install --linkerd-cni-enabled | kubectl apply -f -
-gakbisa semua
-
-https://linkerd.io/2.15/reference/cluster-configuration/#gke
-pake linkerd-control-plane  + cni  + disable poststart, await=false sama aja tetep gakbisa
-
-kubespray gak bisa pake service mesh ...
-```
-
-### istio
-
-```
-
-tar -zxvf https://github.com/istio/istio/releases/download/1.15.0/istio-1.15.0-linux-amd64.tar.gz
-
-taint noschedule dulu di semua node yg bukan jadi tempat deploy istio ingress..
-istioctl install
-
-https://docs.tigera.io/calico/latest/network-policy/istio/app-layer-policy
-istio biasa tanpa cni gakbisa, 403 forbidden di google gak ada solusi
-gak bisa semua
-
-```
 
 ### Setup Redis, Mongodb, dll.
 
 ```
+--- install argocd ----
+https://argo-cd.readthedocs.io/en/stable/getting_started/
+- argocd login  <ip_public_vps>:<port_argocd>
+- argocd repo add  git@github.com:ququiz/argocd-k8s-ququiz.git  --ssh-private-key-path ./id_rsa
+
 ---- list namespace----
 default: buat microservices, dkron
 redis,mongodb,rabbitmq
@@ -340,13 +116,10 @@ EOF
 
 
 
-
-
-
 ------redis------
 - helm repo add bitnami https://charts.bitnami.com/bitnami
 - cd redis
-- helm install redis bitnami/redis --version 19.3.4 -f values.yaml --namespace redis (ini gakusah argocd aja yg deploy)
+- install redis pake argocd app (redis-app-argocd.yaml)
 
 
 ---setup volume mongodb
@@ -362,9 +135,6 @@ sudo chmod 777  /data/volumes/pv-mongodb-st (oracle)
 sudo chmod 777  /data/volumes/pv-mongodb-st2 (biznet)
 sudo chmod 777  /data/volumes/pv-mongodb-st3
 
-
-
-
 kubectl apply -f pv1.yaml
 kubectl apply -f pv2.yaml
 kubectl apply -f pv3.yaml
@@ -373,10 +143,14 @@ kubectl apply -f pv3.yaml
 ---- mongodb (operator community , bitnami gak bisa ,justmeandopensource jg gakbisa)----
 
 https://irshitmukherjee55.hashnode.dev/a-tale-of-deploying-mongodb-in-k8s-statefulsetsheadless-service
+- install mongo via kubectl (file ada di k8s-deployment/mongodb)
 
 k apply -f configmap.yaml
 
- kubectl exec -it mongo-0 -- mongo
+- bikin mongodb replicaset (3 replica)
+kubectl exec -it mongo-0 -- mongo
+
+
 
 rs.initiate({
         "_id" : "rs0",
@@ -433,7 +207,7 @@ EOF
 
 1. kubectl apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
 1b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
-deploy rabbitmq apps (argocd)
+2a. deploy rabbitmq apps (argocd) (rabbitmq-app-argocd.yaml)
 
 https://www.rabbitmq.com/kubernetes/operator/kubectl-plugin
 
@@ -456,14 +230,14 @@ connURL= amqp://default_user_Z4KRpZEzc-7wictHAsl:0vpV52fDOzbx2UtHFMRDotjw27pvzB1
 kubectl label nodes <your-node-name> dkron-node=true
 
 4a. kubectl  create configmap dkroncurl  --from-file ./dkron_curl.sh
-4b. apply dkron-app di argocd (argocd aaja)
+4b. apply dkron-app di argocd (argocd aja) (dkron-app-argocd.yaml)
 4c. kubectl get pod
 kubectl exec -it <nama_pod_dkron>  -- bash -c "cp curl/* bisa/ && chmod 777 bisa/dkron_curl.sh && bisa/dkron_curl.sh"
 
-4d.
 
 4e. connURL = http://dkron-svc:8080/v1/jobs
 4f. copy connURl dkron ke environment  k8s-deployment/app/*  (DKRON_URL)
+
 
 
 
@@ -478,7 +252,8 @@ sudo chmod 777 /data/volumes/postgres
 kubectl apply -f postgres/pv-postgres.yaml
 
 
-- install  postgres-app.yaml di argocd node
+
+- install  postgres-app-argocd.yaml di argocd node
 - kubectl exec -n postgres -it my-pgsql-cluster-1 bash
 
 - psql -U postgres
@@ -491,73 +266,203 @@ kubectl apply -f postgres/pv-postgres.yaml
 
 ```
 
-## Quick Start (Minikube/k8s) (yg kujelasin works di minikube)
-
-- aku ambil dari hehe https://github.com/lintang-b-s/distributed-video-transcoder
-- setup mongodb operator, rabbitmq operator, dkron, nginx-ingress (eksekusi semua commadn dibawah sebelum deploy app)
+### Daftar queue RabbitMQ (wajib tambahin di web rabbitmq)
 
 ```
 
-0. pastikan udah install, helm, minikube, docker
-0b. minikube start --cpus max --memory=9000mb --driver=docker (kalau sebelumnya pernah init cluster minikube, delete dulu `minikube delete`)
-0c. helm repo add mongodb https://mongodb.github.io/helm-charts
-0d. helm install community-operator mongodb/community-operator --namespace mongodb  --create-namespace
+- delete-cache-queue
+routingKey: delete-cache
+exchange: scoring-quiz-query
 
-1. kubectl apply -f k8s-deployment/mongodb/mongo_cr.yaml --namespace mongodb
-1b. kubectl describe pod example-mongodb-0 -n mongodb (tunggu sampai pod started)
-1c. kubectl get pod -n mongodb (tunggu sampai example-mongodb-0, example-mongodb-1, example-mongodb-2 started)
-
-1d.dapetin connection string mongodb:  kubectl get secret example-mongodb-admin-admin    -n mongodb \
--o json | jq -r '.data | with_entries(.value |= @base64d)'
-
-1e. contoh hasil dari command diatas:
-{
-  "connectionString.standard": "mongodb://admin:lintang@example-mongodb-0.example-mongodb-svc.mongodb.svc.cluster.local:27017,example-mongodb-1.example-mongodb-svc.mongodb.svc.cluster.local:27017,example-mongodb-2.example-mongodb-svc.mongodb.svc.cluster.local:27017/admin?replicaSet=example-mongodb&ssl=false",
-  "connectionString.standardSrv": "mongodb+srv://admin:lintang@example-mongodb-svc.mongodb.svc.cluster.local/admin?replicaSet=example-mongodb&ssl=false",
-  "password": "lintang",
-  "username": "admin"
-}
+- quiz.email.queue
 
 
-1f. copy connectionString.standarrd ke ennvironement k8s-deployment/app/* (MONGO_URL)
+- scoringQuizQueryQueue
+routingKey: correct-answer
+exchange: scoring-quiz-query
 
+- userAnswerQueue
+routingKey: user-answer
+EXCHANGE_NAME: quiz-command-quiz-query
 
-
-1j. minikube addons enable ingress
-
---- rabbitmq----
-2. kubectl apply -f https://github.com/rabbitmq/cluster-operator/releases/latest/download/cluster-operator.yml
-2b. tunggu sampai operator running  (kubectl get pod -n rabbitmq-system)
-2c. kubectl apply -f k8s-deployment/rabbitmq/rmq_cr.yaml
-
-2d. dapetin user rabbitmq : kubectl -n default  get secret rabbitmq-default-user -o jsonpath="{.data.username}" | base64 --decode
-
-2e. dapetin password rabbitmq:  kubectl -n default get secret rabbitmq-default-user -o jsonpath="{.data.password}" | base64 --decode
-
-2f. kubectl get service rabbitmq -o jsonpath='{.spec.clusterIP}' -n default
-
-conURL := amqp://<yang_didapet_dari_2c>:<yang_didapet_dari2d>@<yang_didapet_dari_2g>:5672/
-contoh:
-connURL= amqp://default_user_Z4KRpZEzc-7wictHAsl:0vpV52fDOzbx2UtHFMRDotjw27pvzB1w@10.102.74.165:5672/
-
-2i. copy conn url ke ennvironement k8s-deployment/app/*  (RABBIT_URL)
-
-
-
----- dkron ----
-4a. kubectl  create configmap dkroncurl  --from-file ./dkron_curl.sh
-4b. kubectl apply -f k8s-deployment/dkron/dkron-deployment.yaml
-4c. kubectl get pod
-
-4d. kubectl exec -it <nama_pod_dkron>  -- bash -c "cp curl/* bisa/ && chmod 777 bisa/dkron_curl.sh && bisa/dkron_curl.sh"
-
-4e. connURL = http://dkron-svc:8080/v1/jobs
-4f. copy conURl dkron ke environment  k8s-deployment/app/*  (DKRON_URL)
-
-
-
-
-
-
-7. minikube addons enable metrics-server
 ```
+
+### Install istio
+
+
+```
+
+- taint noschedule dulu di semua node yg bukan jadi tempat deploy istio ingress..
+- install istio sesuai https://istio.io/latest/docs/setup/getting-started/
+- install gateway & virtual service istio (file ada di istio/ingress.yaml)
+
+```
+
+
+
+### Daftar queue RabbitMQ (wajib ditambahin di web rabbitmq management)
+
+```
+- k port-forward svc/rabbitmq 15672
+- ssh -L 15672:localhost:15672 lintang@10.70.70.1
+
+- delete-cache-queue
+routingKey: delete-cache
+exchange: scoring-quiz-query
+
+- quiz.email.queue
+
+
+- scoringQuizQueryQueue
+routingKey: correct-answer
+exchange: scoring-quiz-query
+
+- userAnswerQueue
+routingKey: user-answer
+EXCHANGE_NAME: quiz-command-quiz-query
+
+```
+
+### Install Setiap Microservice lewat argocd
+```
+- argocd login  <ip_public_vps>:<port_argocd>
+- argocd repo add  git@github.com:ququiz/argocd-k8s-ququiz.git  --ssh-private-key-path ./id_rsa
+- add argocd app , pake semua manifest argocd app yg ada di root repo ini 
+
+- quiz-command-app-argocd.yaml
+- quiz-query-app-argocd.yaml
+- auth-app-argocd.yaml
+- notification-app-argocd.yaml
+- scoring-service-app-argocd.yaml
+```
+
+
+## TODO
+
+```
+
+oracle vm harus ufw allow any & ufw enable
+- scale istio ingress:
+
+ k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule
+- k edit  deployment/istio-ingressgateway -n istio-system
+- limit cpu : 6, memory 3Gi
+
+
+
+
+cilium hubble port-forward &
+hubble config set tls true
+hubble config set tls-allow-insecure true
+
+cat ~/.config/hubble/config.yaml
+tls: true
+tls-allow-insecure: true
+
+hubble status
+Healthcheck (via localhost:4245): Ok
+Current/Max Flows: 24,570/24,570 (100.00%)
+Flows/s: 51.15
+Connected Nodes: 6/6
+
+
+cilium hubble ui --open-browser=false
+dari laptopku: ssh -L 8000:localhost:12000 lintang@10.70.70.1
+
+
+
+### nginx ingress di node oracle
+k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule
+k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule
+
+k taint nodes  nodelintang  node-role.kubernetes.io/control-plane:NoSchedule-
+k taint nodes  nodealibaba  node-role.kubernetes.io/control-plane:NoSchedule-
+k taint nodes  nodegcp1  node-role.kubernetes.io/control-plane:NoSchedule-
+k taint nodes  nodebiznet  node-role.kubernetes.io/control-plane:NoSchedule-
+
+```
+
+
+
+### troubleshooting
+
+```
+https://stackoverflow.com/questions/46852169/no-primary-detected-for-set-mongo-shell
+
+argocd repo add  git@github.com:ququiz/argocd-k8s-ququiz.git  --ssh-private-key-path ./id_rsa
+
+pull image lama : sudo systemctl restart kubelet
+coredns crashloopbackoff:
+kubectl edit configmap coredns -n kube-system
+isinya:
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+            pods insecure
+            fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        forward . 8.8.8.8 8.8.4.4
+        cache 30
+        loop
+        reload
+        loadbalance
+    }
+
+
+    yg line ini diganti :  forward . /etc/resolv.conf {
+          prefer_udp
+          max_concurrent 1000
+        }
+delete coredns yg crashloopbackoff
+
+
+- crypto invalid?
+rm -rf $HOME/.kube || true
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+```
+
+
+## Notes
+
+```
+jangan run rabbitmq lewat argocd, bikin gak bisa connect
+k apply -f aja langsung di vpsnya
+```
+
+# Testing
+- Semua k6 file ada di directory load-testing
+1. Quiz Query Service
+![quiz query svc](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549742/ququiz_scalable/quiz_all_k6_tfbv6a.png)
+
+2. Scoring Service
+![Scoring Service](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549815/ququiz_scalable/scoring-service_urzkzt.png)
+
+3. Semua Unit Test ada di masing masing repo microservice
+
+# Dokumentasi
+1. argocd
+![argocd](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549477/ququiz_scalable/argocd_pa2eni.png)
+2. Grafana
+![grafana cpu](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549649/ququiz_scalable/grafana-cpu_ekvoeq.png)
+![prome grafana per pod](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549888/ququiz_scalable/prome_grafana_kkpkld.png)
+3. istio kiali
+![istio](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549941/ququiz_scalable/istio-kiali_v29djn.png)
+4. Cilium Hubble ui
+![hubble](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718550043/ququiz_scalable/hubble_ui_p6pnj7.png)

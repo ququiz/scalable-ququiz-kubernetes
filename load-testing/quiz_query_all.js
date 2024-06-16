@@ -4,13 +4,7 @@ import { sleep } from 'k6';
 export const options = {
   vus: 900,
   duration: '30s'
-//  scenarios: {
-//         constant_vus: {
-//             executor: 'constant-vus',
-//             vus: 1000,
-//             duration: '30s', // Durasi total pengujian, dapat disesuaikan
-//         },
-// },
+
  
 }
 export default (data) => {

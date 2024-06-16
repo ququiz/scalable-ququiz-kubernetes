@@ -10,3 +10,6 @@ data:
       dbPath: /data/db  # Sets the MongoDB data storage path
     replication:
       replSetName: "rs0"
+
+
+      

@@ -15,20 +15,6 @@ function createRandomString(length) {
   return result;
 }
 
-export function setup(){
-    const totalContact = 10000;
-    const data = [];
-    for (let i = 0; i < totalContact; i++) {
-        data.push({
-            "fullname": `User${i}`,
-            "email": `testing-${i}@gmail.com`,
-            "username": `username-${i}`,
-            "password": `Password-${i}23(`,
-        })
-    }
-    return data;
-}
-
 export default (data) => {
 
     const user = {
