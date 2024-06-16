@@ -34,7 +34,7 @@ QuQuiz adalah aplikasi kuis online scalable yang melayani pembuatan kuis yang ak
 # Deployment-Scenario
 1. Multiple Kubernetes Node (beberapa vm cloud, vps, dan laptop Lintang). Cluster kubernetes dibuat menggunakan Kubespray dan Wireguard VPN. Total Sumber daya komputasi: 48 Virtual Core CPU & 80 GB RAM.
 ![pods](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718548976/ququiz_scalable/pods_skc5ii.png)
-
+2. Semua kubernetes manifest ada di directory k8s-deployment
 
 # Code-Repository
 1. Frontend: https://github.com/ququiz/ququiz-fe.git
