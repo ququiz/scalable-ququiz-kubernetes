@@ -46,7 +46,7 @@ spec:
           - name: POSTGRES_PASSWORD
             value: lintang
           - name: POSTGRES_HOST
-            value:  '34.101.191.189' #my-pgsql-cluster-rw.postgres
+            value: my-pgsql-cluster-rw.postgres  # '34.101.191.189' #my-pgsql-cluster-rw.postgres
           - name: POSTGRES_PORT
             value: '5432'
           - name: POSTGRES_DATABASE
