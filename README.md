@@ -450,10 +450,26 @@ k apply -f aja langsung di vpsnya
 # Testing
 - Semua k6 file ada di directory load-testing
 1. Quiz Query Service
+- load test
 ![quiz query svc](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549742/ququiz_scalable/quiz_all_k6_tfbv6a.png)
 
+- stress test
+![stress test query](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718616690/ququiz_scalable/stress_test_query_ubezzv.png)
+
+
+- spike test
+![spike test query](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718616693/ququiz_scalable/spike_test_query_question_b34o5n.png)
+
+
 2. Scoring Service
+- load test
 ![Scoring Service](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549815/ququiz_scalable/scoring-service_urzkzt.png)
+
+- stress test
+![stress test scoring ](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718616690/ququiz_scalable/stress_test_scoring_m6pqlk.png)
+
+- spike test
+![spike test scoring](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718616890/ququiz_scalable/spike_test_scoring_codloz.png)
 
 3. Semua Unit Test ada di masing masing repo microservice
 
