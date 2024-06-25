@@ -13,7 +13,7 @@ QuQuiz adalah aplikasi kuis online scalable yang melayani pembuatan kuis yang ak
 
 
 # Architecture
-![microservices kubernetes](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718547171/ququiz_scalable/ququiz_3_prrgnp.png)
+![microservices kubernetes](https://res.cloudinary.com/dex4u3rw4/image/upload/v1719303162/ququiz_scalable/ququiz_excalidraw_y6jobd.png)
 
 
 
@@ -24,11 +24,11 @@ QuQuiz adalah aplikasi kuis online scalable yang melayani pembuatan kuis yang ak
 
 # Anggota-Kelompok
 ```
-1. Andreas Notokusumo (Quiz Command Service)
-2. Alexander Adam Mukhaer (Auth Service & Quiz Command Service)
-3. David Lois (Frontend Ququiz)
-4. Azhar Bagaskara (Notification Service)
-5. Lintang Birda Saputra (Quiz Query Service, Scoring Service, Kubernetes Deployment)
+1. Andreas Notokusumo (22/493183/PA/21167) (Quiz Command Service)
+2. Alexander Adam Mukhaer (22/497621/PA/21436) (Auth Service & Quiz Command Service)
+3. David Lois (22/498373/PA/21509) (Frontend Ququiz)
+4. Azhar Bagaskara (22/502652/PA/21573) (Notification Service)
+5. Lintang Birda Saputra  (22/505034/PA/21737) (Quiz Query Service, Scoring Service, Kubernetes Deployment)
 ```
 
 # Deployment-Scenario
@@ -483,3 +483,16 @@ k apply -f aja langsung di vpsnya
 ![istio](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718549941/ququiz_scalable/istio-kiali_v29djn.png)
 4. Cilium Hubble ui
 ![hubble](https://res.cloudinary.com/dex4u3rw4/image/upload/v1718550043/ququiz_scalable/hubble_ui_p6pnj7.png)
+5. kubernetes nodes (udah mati )
+![oracle](https://res.cloudinary.com/dex4u3rw4/image/upload/v1719299264/ququiz_scalable/nodeoracle1_phhi9g.png)
+
+![lintang](https://res.cloudinary.com/dex4u3rw4/image/upload/v1719299227/ququiz_scalable/nodelintang_t9fmhw.png)
+
+![gcp](https://res.cloudinary.com/dex4u3rw4/image/upload/v1719299192/ququiz_scalable/nodegcp1_wgf8op.png)
+
+![biznet](https://res.cloudinary.com/dex4u3rw4/image/upload/v1719299192/ququiz_scalable/nodebiznet_tgihq0.png)
+
+![alibaba](https://res.cloudinary.com/dex4u3rw4/image/upload/v1719299192/ququiz_scalable/nodealibaba_kc98cw.png)
+
+6. Frontend
+![frontned](https://res.cloudinary.com/dex4u3rw4/image/upload/v1719303447/ququiz_scalable/Screenshot_from_2024-06-25_15-16-50_jmycek.png)
